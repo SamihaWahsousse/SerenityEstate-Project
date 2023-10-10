@@ -8,8 +8,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 #[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,14 +26,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $fullName = null;
 
+    private ?string $plainPassword = null;
+
     /**
      * @var string The hashed password
      */
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'string')]
     private ?string $password = null;
 
-    private ?string $plainPassword = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
@@ -106,12 +111,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(?string $plainPassword): static
+    /**
+     * Set the value of plainPassword
+     * 
+     * @return self
+     */
+
+    public function setPlainPassword($plainPassword)
     {
         $this->plainPassword = $plainPassword;
 
         return $this;
     }
+
+    /*
+
+  public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+*/
+
+
 
 
     public function getAvatar(): ?string
@@ -150,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
