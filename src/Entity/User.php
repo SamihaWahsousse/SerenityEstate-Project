@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[UniqueEntity('email')]
@@ -32,8 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
 
-    #[ORM\Column(type: 'string')]
-    private ?string $password = null;
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\NotBlank()]
+    private ?string $password = 'password';
 
 
 
@@ -123,22 +126,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    /*
-
-  public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-    public function setPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
-        return $this;
-    }
-
-*/
-
-
 
 
     public function getAvatar(): ?string
