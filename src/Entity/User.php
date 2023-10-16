@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,8 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]
     private ?string $password = 'password';
 
-
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
 
@@ -49,9 +49,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phoneNumber = null;
+
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Property::class)]
+    private Collection $properties;
+
+    #[ORM\OneToMany(mappedBy: 'agent', targetEntity: Contract::class)]
+    private Collection $contracts;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Contract::class)]
+    private Collection $contractsClient;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->properties = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
+        $this->contractsClient = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +193,120 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): static
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Property>
+     */
+    public function getProperties(): Collection
+    {
+        return $this->properties;
+    }
+
+    public function addProperty(Property $property): static
+    {
+        if (!$this->properties->contains($property)) {
+            $this->properties->add($property);
+            $property->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProperty(Property $property): static
+    {
+        if ($this->properties->removeElement($property)) {
+            // set the owning side to null (unless already changed)
+            if ($property->getOwner() === $this) {
+                $property->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contract>
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): static
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts->add($contract);
+            $contract->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): static
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getAgent() === $this) {
+                $contract->setAgent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contract>
+     */
+    public function getContractsClient(): Collection
+    {
+        return $this->contractsClient;
+    }
+
+    public function addContractsClient(Contract $contractsClient): static
+    {
+        if (!$this->contractsClient->contains($contractsClient)) {
+            $this->contractsClient->add($contractsClient);
+            $contractsClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContractsClient(Contract $contractsClient): static
+    {
+        if ($this->contractsClient->removeElement($contractsClient)) {
+            // set the owning side to null (unless already changed)
+            if ($contractsClient->getClient() === $this) {
+                $contractsClient->setClient(null);
+            }
+        }
 
         return $this;
     }
