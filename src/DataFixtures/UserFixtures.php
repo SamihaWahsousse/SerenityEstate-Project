@@ -20,9 +20,11 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $admin = new User();
         $admin->setEmail('Admin@serenity-estate.com');
         $admin->setFullName('Admin');
-        $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPlainPassword('Admin');
+        $admin->setRoles(['ROLE_ADMIN']);
         $admin->setAvatar('https://picsum.photos/id/8/100/150');
+        $admin->setPhoneNumber('+33 777 11 11 11');
+        $admin->setIsActive(true);
         $entityManager->persist($admin);
 
         // Create Manager 
@@ -30,8 +32,11 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $manager->setEmail('Manager@serenity-estate.com');
         $manager->setFullName('Manager');
         $manager->setRoles(['ROLE_MANAGER']);
-        $manager->setPlainPassword('Manager'); // $manager->setPassword($this->passwordHasher->hashPassword($manager, 'manager'));
+        $manager->setPlainPassword('Manager');
         $manager->setAvatar('https://picsum.photos/id/6/100/80');
+        $manager->setPhoneNumber('+33 666 22 22 22');
+        $manager->setIsActive(true);
+
         $entityManager->persist($manager);
 
         // Create Agent
@@ -44,14 +49,20 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
             // $agent[$i]->setPassword($this->passwordHasher->hashPassword($agent[$i], 'agent' . $i));
             $agent[$i]->setPlainPassword('Agent');
             $agent[$i]->setAvatar('https://picsum.photos/id/1/100/95');
+            $agent[$i]->setPhoneNumber('+33 555 88 88 88');
+            $agent[$i]->setIsActive(true);
             $entityManager->persist($agent[$i]);
         }
+
+        // Create Client
         $client = new User();
-        $client->setEmail('Client@serenity-estate.com');
+        $client->setEmail('Client@gmail.com');
         $client->setFullName('Client');
         $client->setRoles(['ROLE_CLIENT']);
         $client->setPlainPassword('Client');
         $client->setAvatar('https://picsum.photos/id/8/100/150');
+        $client->setPhoneNumber('+33 353 99 99 99');
+        $client->setIsActive(false);
         $entityManager->persist($client);
 
         $entityManager->flush();
