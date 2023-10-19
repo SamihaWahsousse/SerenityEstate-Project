@@ -1,0 +1,62 @@
+{% extends 'base.html.twig'  %}
+{% block title %} Edit Profile{% endblock %}
+
+
+
+    {% block body %}
+
+        <div class="flash-messages">
+            {% set flashbag_notices = app.session.flashBag('success') %}
+            {% for messages in app.session.flashBag.all()%}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        {% set srcProfileImg = app.user.avatar %}
+        <div class="mainContainer d-flex flex-column  ">
+           <div class="row justify-content-center">
+               <div class="col-1 ">
+               {% if app.user.avatar==null %}
+                        <img class="profileImage" src={{ asset('build/images/avatarAnonyme.PNG') }} alt="avatarAnonymous" style="width:80px; height: 80px ">
+                   {% else %}
+                         {% if app.user.avatar starts with 'https://'%}
+                             <img class="profileImage" src="{{srcProfileImg}}" alt="Profile image" style="width:80px; height: 80px ">
+                         {% else %}
+                             <img class="profileImage" src={{ asset('upload/avatars/')~ srcProfileImg }} alt="profileImage" style="width:80px; height: 80px ">
+                         {% endif %}
+
+                   {% endif %}
+               </div>
+
+               <div class="col-6 w-50">
+                 <h3 class="mt-5">Edit Profile</h3>
+                   {{ form_start(form) }}
+                   <div class="containerEditForm mt-5 ">
+                       {{ form_row(form.email,{ 'attr':{'readonly':'1'}}) }}
+                       {{ form_row(form.fullName) }}
+                       {{ form_row(form.photo) }}
+                       <div class="h-50">
+                           <a  href="{{ path('app_forgot_password_request') }}">
+                               <img class="mt-2 resetPasswordIcon" src="{{ asset('build/images/resetPasswordIcon.png')}}">
+                               Change Your password
+                           </a>
+                       </div>
+                       <div class="containerBtn d-flex align-items-center justify-content-end mt-3">
+                           <button class="button-submit-editProfile me-4" type="submit">Save Changes</button>
+                           <a class="btn btn-secondary text-decoration-none" href="{{ path('app_home') }}" role="button">Back</a>
+                       </div>
+                   </div>
+                   {{ form_rest(form) }}
+               </div>
+
+           </div>
+
+
+           </div>
+
+
+        {% endblock %}
