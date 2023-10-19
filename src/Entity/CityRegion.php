@@ -21,7 +21,7 @@ class CityRegion
     #[ORM\Column(length: 255)]
     private ?string $region = null;
 
-    #[ORM\OneToMany(mappedBy: 'cityRegion', targetEntity: Address::class)]
+    #[ORM\OneToMany(mappedBy: 'cityRegion', targetEntity: Address::class, cascade: ["persist"])]
     private Collection $addresses;
 
     public function __construct()
@@ -86,5 +86,11 @@ class CityRegion
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        $cityRegionName = $this->getCity() . ',' . $this->getRegion();
+        return $cityRegionName;
     }
 }

@@ -69,7 +69,12 @@ class Operation
                 $property->setOperation(null);
             }
         }
-
         return $this;
+    }
+
+    public function __toString()
+    {
+        // Return a string representation of the name of the operation type
+        return $this->getName();
     }
 }

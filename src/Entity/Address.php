@@ -21,7 +21,7 @@ class Address
     #[ORM\Column(nullable: true)]
     private ?int $floorNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'addresses')]
+    #[ORM\ManyToOne(inversedBy: 'addresses', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?CityRegion $cityRegion = null;
 
@@ -102,5 +102,10 @@ class Address
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getStreet() . ', ' . $this->getCityRegion();
     }
 }

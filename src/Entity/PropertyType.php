@@ -72,4 +72,10 @@ class PropertyType
 
         return $this;
     }
+
+    public function __toString()
+    {
+        // Return a string representation of the name of the property type
+        return $this->getName();
+    }
 }

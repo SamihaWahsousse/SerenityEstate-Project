@@ -30,21 +30,22 @@ class Property
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(nullable: false, type: "datetime_immutable", options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeImmutable $createdAt;
 
-    #[ORM\ManyToOne(inversedBy: 'properties')]
+
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Address $address = null;
 
-    #[ORM\ManyToOne(inversedBy: 'properties')]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?PropertyType $propertyType = null;
 
-    #[ORM\ManyToOne(inversedBy: 'properties')]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
     private ?Operation $operation = null;
 
-    #[ORM\ManyToOne(inversedBy: 'properties')]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
     private ?User $owner = null;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Propertyad::class)]
@@ -55,6 +56,7 @@ class Property
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->propertyads = new ArrayCollection();
         $this->contracts = new ArrayCollection();
     }
