@@ -34,18 +34,18 @@ class Property
     private ?\DateTimeImmutable $createdAt;
 
 
-    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Address $address = null;
 
-    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?PropertyType $propertyType = null;
 
-    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
     private ?Operation $operation = null;
 
-    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist"])]
+    #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
     private ?User $owner = null;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Propertyad::class)]
