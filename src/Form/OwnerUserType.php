@@ -23,23 +23,28 @@ class OwnerUserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('users', EntityType::class, [
-            'class' => User::class, //'App\Entity\User',
-            'query_builder' => function (EntityRepository $entityRepository) {
-                return $entityRepository->createQueryBuilder('user')
-                    ->where('user.roles LIKE :role')
-                    ->setParameter('role', '%"ROLE_OWNER"%');
-            },
-            'label' => false,
-            // 'mapped' => false,
-            'choice_label' => 'email', //we can use any property from the User entity to display
-        ]);
+        $builder
+            ->add('email', EntityType::class, [
+                'class' => User::class, //'App\Entity\User',
+                'by_reference' => true,
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('user')
+                        ->where('user.roles LIKE :role')
+                        ->setParameter('role', '%"ROLE_OWNER"%');
+                },
+                'label' => false,
+                'placeholder' => 'choose the owner',
+                'choice_label' => function ($user) {
+                    return $user->getFullName() . ' -  ' . $user->getEmail();
+                }
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'compound' => true,
+            'data_class' => User::class,
         ]);
     }
 }

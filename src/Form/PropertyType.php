@@ -37,13 +37,13 @@ class PropertyType extends AbstractType
             ])
             ->add('address', AddressType::class)
             ->add('propertyType', PropertyTypeFormType::class, [
-                'label' => 'Select property type', // label for the property type field
+                'label' => 'Select property type',
+                'by_reference' => true, // label for the property type field
             ])
             ->add('operation', OperationType::class)
             ->add('owner', OwnerUserType::class, [
-                'label' => 'Select Owner', // label for the owner field
-                'mapped' => false,
-
+                'label' => 'Select Owner',
+                'by_reference' => true,
             ])
             ->add('save', SubmitType::class);
     }

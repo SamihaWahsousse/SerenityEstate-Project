@@ -18,8 +18,13 @@ class PropertyTypeFormType extends AbstractType
                 'name',
                 EntityType::class,
                 [
-                    'class' => PropertyType::class, //'App\Entity\User',
-                    'label' => false
+                    'class' => PropertyType::class,
+                    'by_reference' => true,
+                    'placeholder' => 'choose a property type',
+                    'label' => false,
+                    'choice_label' => function (PropertyType $propertyType) {
+                        return sprintf('(%d) %s', $propertyType->getId(), $propertyType->getName());
+                    },
                 ]
             );
     }

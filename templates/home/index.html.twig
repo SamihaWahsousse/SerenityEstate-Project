@@ -12,14 +12,36 @@
 
 {% if app.user %}
         <div class="mb-3">you are login as : {{ app.user.fullName }}</div>
+        {% set srcProfileImg=app.user.avatar %}
+        
+        {% if app.user.avatar starts with 'https://'%}
+                <div class="mb-3" >
+                    <img class="profileImage" src="{{srcProfileImg}}" alt="Profile image" style="width:80px; height: 80px ">
+                </div>
+        {% else %}
+                <div class="mb-3">
+                    <img class="profileImage" src={{ asset('upload/avatars/')~ srcProfileImg }} alt="profileImage" style="width:80px; height: 80px ">
+                </div>
+        {% endif %}
+
+
+            <a class="btn btn-primary " href="{{ path('app_edit_profile') }}" role="button">Edit profil </a>
+        <div class="mt-3">
+            <a class="btn btn-primary " href="{{ path('admin_panel') }}" role="button"> Administration Panel </a>
+        </div>  
+        <div class="mt-3">
+            <a class="btn btn-primary " href="{{ path('app_property_add') }}" role="button"> Add property </a>
+        </div>       
+               
+        <div class="mt-3">
+            <a class="btn btn-primary " href="{{ path('app_logout') }}" role="button">logout </a>
+        </div>
+
+ {% else %}       
+    <div class="mb-3" >
+          <a class="btn btn-primary " href="{{ path('app_login') }}" role="button">Login </a>
+    </div>
+
 {% endif %}
-<div>
-<a class="btn btn-primary " href="{{ path('app_login') }}" role="button">Login </a>
-</div>
-<div> <a class="btn btn-primary " href="{{ path('app_logout') }}" role="button">Logout</a></div>
-   
-
-    {# <a class="btn btn-primary " href="{{ path('app_test_voters') }}" role="button">Voters autorisations </a> #}
-
 
 {% endblock %}

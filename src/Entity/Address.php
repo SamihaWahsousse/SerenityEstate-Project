@@ -21,7 +21,7 @@ class Address
     #[ORM\Column(nullable: true)]
     private ?int $floorNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'addresses', cascade: ["persist"])]
+    #[ORM\ManyToOne(inversedBy: 'addresses', cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?CityRegion $cityRegion = null;
 

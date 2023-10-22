@@ -22,7 +22,9 @@ class OperationType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Operation::class,
-                    'label' => false
+                    'label' => false,
+                    'placeholder' => 'choose an operation',
+
                 ]
             );
     }

@@ -1,0 +1,92 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div>
+		<h2>Add new Property
+		</h2>
+	</div>
+
+	<div class="container w-25">
+		{{form_start(form)}}
+		<div>
+			<div>
+				{{form_row(form.description)}}
+				<div class="container d-flex flex-column">
+					{{form_row(form.isAvailable)}}
+				</div>
+			</div>
+
+      
+			<div class="col">
+				{{form_row(form.rooms)}}
+			</div>
+			<div>
+				{{form_row(form.area)}}
+			</div>
+			<div>
+				{{form_row(form.price)}}
+			</div>
+
+{# <div class="address-collection-container">
+  <div class="address-row">
+    <div class="address-field-with-label main-part  margin-right">
+	{{ form_row(form.address.street, {'attr': {'placeholder': 'test street', 'id' : 'street2', 'class':'address-field autocomplete-container'}}) }}
+    </div>
+
+		</div> #}
+		</div>
+		{{form_end(form)}}
+	</div>
+
+	<div class="address-collection-container">
+  <div class="address-row">
+    <div class="address-field-with-label main-part  margin-right">
+      <label for="street3">Street:</label><br>
+      <input id="street3" class="address-field autocomplete-container"></div>
+    </div>
+    
+    <div class="address-field-with-label">
+      <label for="housenumber">House number:</label><br>
+      <input id="housenumber" class="geoapify-autocomplete-input small-input"/>
+    </div>
+  </div>
+
+  <div class="address-row">
+    <div class="address-field-with-label main-part">
+      <label for="address-additional">Apartment, suite (optional):</label><br>
+      <input id="address-additional" class="geoapify-autocomplete-input"/>
+    </div>
+  </div>
+
+  <div class="address-row">
+  
+    <div class="address-field-with-label main-part  margin-right">
+      <label for="city">City:</label><br>
+      <div id="city" class="address-field autocomplete-container"></div>
+    </div>
+  
+    <div class="address-field-with-label">
+      <label for="postcode">ZIP code:</label><br>
+      <input id="postcode" class="geoapify-autocomplete-input small-input"/>
+    </div>
+  </div>
+
+  <div class="address-row">  
+    <div class="address-field-with-label main-part  margin-right">
+      <label for="state">State:</label><br>
+      <div id="state" class="address-field autocomplete-container"></div>
+    </div>
+  
+    <div class="address-field-with-label main-part">
+      <label for="country">Country:</label><br>
+      <div id="country" class="address-field autocomplete-container"></div>
+    </div>
+  </div>
+
+  <div id="message" class="message-container"></div>
+  <div class="button-container"><button onclick="checkAddress()">Check address</button></div>
+</div>
+
+
+{% endblock %}
+

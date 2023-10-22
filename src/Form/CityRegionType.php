@@ -6,15 +6,16 @@ use App\Entity\CityRegion;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class CityRegionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('city')
-            ->add('region')
-        ;
+            ->add('city', TextType::class)
+            ->add('region', TextType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

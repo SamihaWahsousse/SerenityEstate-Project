@@ -21,7 +21,7 @@ class CityRegion
     #[ORM\Column(length: 255)]
     private ?string $region = null;
 
-    #[ORM\OneToMany(mappedBy: 'cityRegion', targetEntity: Address::class, cascade: ["persist"])]
+    #[ORM\OneToMany(mappedBy: 'cityRegion', targetEntity: Address::class, cascade: ["persist", "remove"])]
     private Collection $addresses;
 
     public function __construct()

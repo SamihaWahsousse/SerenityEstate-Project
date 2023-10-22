@@ -111,6 +111,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function setId(string $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -311,9 +318,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     public function __toString()
     {
         // Return a string representation of the user, e.g., username or name
-        return $this->getFullName(); // Replace with the appropriate property
+        return $this->getEmail(); // Replace with the appropriate property
     }
 }
