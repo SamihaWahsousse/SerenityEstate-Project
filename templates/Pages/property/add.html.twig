@@ -6,7 +6,7 @@
 		</h2>
 	</div>
 
-	<div class="container w-25">
+	 <div class="container w-25">
 		{{form_start(form)}}
 		<div>
 			<div>
@@ -27,22 +27,30 @@
 				{{form_row(form.price)}}
 			</div>
 
-{# <div class="address-collection-container">
+ <div class="address-collection-container">
   <div class="address-row">
     <div class="address-field-with-label main-part  margin-right">
-	{{ form_row(form.address.street, {'attr': {'placeholder': 'test street', 'id' : 'street2', 'class':'address-field autocomplete-container'}}) }}
+	<div id="street" class="address-field autocomplete-container">
+		{# {{ form_label(form.address.street, {'attr': {'value': 'street'}}) }} #}
+		{# {{ form_widget(form.address.street, {'attr': {'placeholder': 'test street'}}) }} #}
+	</div>
+
     </div>
 
-		</div> #}
+		</div> 
 		</div>
+		{{ form_widget(form.address.street, {'attr': {'readonly' : true}}) }}
+		{{ form_widget(form.address.cityRegion.city, {'attr': {'readonly' : true}}) }}
+		{{ form_widget(form.address.cityRegion.region, {'attr': {'readonly' : true}}) }}
+
 		{{form_end(form)}}
 	</div>
 
-	<div class="address-collection-container">
+	{# <div class="address-collection-container">
   <div class="address-row">
     <div class="address-field-with-label main-part  margin-right">
       <label for="street3">Street:</label><br>
-      <input id="street3" class="address-field autocomplete-container"></div>
+      <div id="street3" class="address-field autocomplete-container"></div>
     </div>
     
     <div class="address-field-with-label">
@@ -85,8 +93,7 @@
 
   <div id="message" class="message-container"></div>
   <div class="button-container"><button onclick="checkAddress()">Check address</button></div>
-</div>
-
+</div> #}
 
 {% endblock %}
 

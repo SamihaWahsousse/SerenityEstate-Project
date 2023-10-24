@@ -1,9 +1,23 @@
 // The API Key provided is restricted to JSFiddle website
 // Get your own API Key on https://myprojects.geoapify.com
-const myAPIKey = "6dc7fb95a3b246cfa0f3bcef5ce9ed9a";
+// import { autocomplete } from 'https://unpkg.com/@geoapify/geocoder-autocomplete@^1/dist/index.min.js';
+const myAPIKey = "229523e8e43741739f73b005a4d05482";
+
+
+// const autocompleteInput = new autocomplete.GeocoderAutocomplete(
+//   document.getElementById("autocomplete"), 
+//   'YOUR_API_KEY', 
+//   { /* Geocoder options */ });
+
+
+const streetAddressInput = document.getElementById("property_address_street");
+
+const cityAddressInput = document.getElementById("property_address_cityRegion_city");
+
+const regionAddressInput = document.getElementById("property_address_cityRegion_region");
 
 const streetInput = new autocomplete.GeocoderAutocomplete(
-  document.getElementById("street3"),
+  document.getElementById("street"),
   myAPIKey, {
     allowNonVerifiedHouseNumber: true,
     allowNonVerifiedStreet: true,
@@ -11,7 +25,7 @@ const streetInput = new autocomplete.GeocoderAutocomplete(
     skipIcons: true,
     placeholder: " "
   });
-
+/*
 const stateInput = new autocomplete.GeocoderAutocomplete(
   document.getElementById("state"),
   myAPIKey, {
@@ -21,7 +35,8 @@ const stateInput = new autocomplete.GeocoderAutocomplete(
     skipIcons: true
   });
 
-const cityInput = new autocomplete.GeocoderAutocomplete(
+
+  const cityInput = new autocomplete.GeocoderAutocomplete(
   document.getElementById("city"),
   myAPIKey, {
     type: "city",
@@ -41,34 +56,33 @@ const countryInput = new autocomplete.GeocoderAutocomplete(
   });
 
 const postcodeElement = document.getElementById("postcode");
-const housenumberElement = document.getElementById("housenumber");
+const housenumberElement = document.getElementById("housenumber");*/
 
 streetInput.on('select', (street) => {
   if (street) {
-    streetInput.setValue(street.properties.street || '');
-  }
+    // alert('here');
+    streetAddressInput.value = street.properties.street;
+    if(street.properties.housenumber) {
+      streetInput.setValue('');
+      streetAddressInput.value = street.properties.housenumber + ' ' + streetAddressInput.value;
+    }    
 
-  if (street && street.properties.housenumber) {
-    housenumberElement.value = street.properties.housenumber;
-  }
-
+    /*
   if (street && street.properties.postcode) {
-    postcodeElement.value = street.properties.postcode;
-  }
+     postcodeElement.value = street.properties.postcode;
+  } */
 
   if (street && street.properties.city) {
-    cityInput.setValue(street.properties.city);
+    cityAddressInput.value = street.properties.city;
   }
 
   if (street && street.properties.state) {
-    stateInput.setValue(street.properties.state);
+    regionAddressInput.value = street.properties.state;
   }
-
-  if (street && street.properties.country) {
-    countryInput.setValue(street.properties.country);
-  }
+}
 });
 
+/*
 cityInput.on('select', (city) => {
 
   if (city) {
@@ -97,20 +111,21 @@ stateInput.on('select', (state) => {
   if (state && state.properties.country) {
     countryInput.setValue(state.properties.country);
   }
-});
-
+});*/
+/*
 function checkAddress() {
-  const postcode = document.getElementById("postcode").value;;
-  const city = cityInput.getValue();
-  const street = streetInput.getValue();
-  const state = stateInput.getValue();
-  const country = countryInput.getValue();
-  const housenumber = document.getElementById("housenumber").value;
+  // const postcode = document.getElementById("postcode").value;;
+  const city = cityAddressInput.value;
+  const street = streetAddressInput.value;
+  const state = regionAddressInput.value;
+  const country = 'France';
+  const postcode = '38100';
+  // const housenumber = document.getElementById("housenumber").value;
 
   const message = document.getElementById("message");
   message.textContent = "";
 
-  if (!postcode || !city || !street || !housenumber || !state || !country) {
+  if (!street || !city || !state || !country) {
     highlightEmpty();
     message.textContent = "Please fill in the required fields and check your address again.";
     return;
@@ -118,7 +133,7 @@ function checkAddress() {
 
   // Check the address with Geoapify Geocoding API
   // You may use it for internal information only. Please note that house numbers might be missing for new buildings and non-mapped buildings. So consider that most addresses with verified streets and cities are correct.
-  fetch(`https://api.geoapify.com/v1/geocode/search?housenumber=${encodeURIComponent(housenumber)}&street=${encodeURIComponent(street)}&postcode=${encodeURIComponent(postcode)}&city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}&apiKey=${myAPIKey}`).then(result => result.json()).then((result) => {
+  fetch(`https://api.geoapify.com/v1/geocode/search?street=${encodeURIComponent(street)}&city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}&apiKey=${myAPIKey}`).then(result => result.json()).then((result) => {
     let features = result.features || [];
 
     // To find a confidence level that works for you, try experimenting with different levels
@@ -140,7 +155,7 @@ function checkAddress() {
       message.textContent = "We cannot find your address. Please check if you provided the correct address."
     }
   });
-}
+}*/
 
 
 function highlightEmpty() {
@@ -150,20 +165,8 @@ function highlightEmpty() {
     toHightlight.push(document.getElementById("postcode"));
   }
 
-  if (!cityInput.getValue()) {
-    toHightlight.push(cityInput.inputElement);
-  }
-
   if (!streetInput.getValue()) {
     toHightlight.push(streetInput.inputElement);
-  }
-
-  if (!document.getElementById("housenumber").value) {
-    toHightlight.push(document.getElementById("housenumber"));
-  }
-
-  if (!stateInput.getValue()) {
-    toHightlight.push(stateInput.inputElement);
   }
 
   if (!countryInput.getValue()) {
