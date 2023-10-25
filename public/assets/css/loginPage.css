@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500&display=swap");
 
-:root {
+/* :root {
   --bodybg: #dcdefe;
   --primary-color: #008552;
   --grey: #d6d6d6;
@@ -9,7 +9,9 @@
   --text: #333;
   --slider-bg: #eff3ff;
   --login-cta-hover: #00b36d;
-}
+} */
+
+@import '_variables.css';
 
 * {
   margin: 0;
