@@ -1,33 +1,84 @@
 {% extends 'base.html.twig' %}
+{% block title %} {% endblock %}
+{% block stylesheets %}
+{{ parent ()}}
+        <link rel="stylesheet" href="{{ asset("assets/css/loginPage.css")}}"/>
+{% endblock %}
 
-{% block title %}Log in page{% endblock %}
+  {% block javascripts %} 
+             <script src="{{ asset ("assets/js/loginPage.js")}}" defer></script>        
+        {% endblock %} 
 
 {% block body %}
+
 <form method="post">
-    {% if error %}
+ {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <div class="container">
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-    <input type="hidden" name="_csrf_token"
+<div class="login-container">
+  <div class="login-form">
+    <div class="login-form-inner">
+      <div class="logo"><svg height="512" viewBox="0 0 192 192" width="512" xmlns="http://www.w3.org/2000/svg">
+          <image xlink:href="{{ asset('upload/images/SerenityEstateLogo.svg') }}" width="100%" height="100%"/>
+        </svg></div>
+      <h1>Login</h1>
+      <p class="body-text">Please login to access the system</p>
+
+      <div class="login-form-group">
+        <label for="inputEmail">Email <span class="required-star">*</span></label>
+        <input type="email" placeholder="email@website.com" value="{{ last_username }}" name="email" id="email"required autofocus>
+      </div>
+      <div class="login-form-group">
+        <label for="inputPassword">Password <span class="required-star">*</span></label>
+        <input autocomplete="off" type="password" placeholder="Minimum 8 characters" id="pwd" name="password" autocomplete="current-password" required>
+      </div>
+
+      <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}">
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+
+      <div class="login-form-group single-row">
+        <div class="custom-check">
+          {# <input autocomplete="off" type="checkbox" checked id="remember"><label for="remember">Remember me</label> #}
+        </div>
+
+        <a href="{{ path('app_forgot_password_request') }}"class="link forgot-link">Forgot Password ?</a>
+      </div>
+
+      <button class="rounded-button login-cta" type="submit">Login<button>
 </form>
-<a href="{{ path('app_forgot_password_request') }}">forgot password</a>
+    </div>
+  </div>
+
+
+  <div class="onboarding">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide color-1">
+          <div class="slide-image">
+            <img src="https://raw.githubusercontent.com/ismailvtl/ismailvtl.github.io/master/images/startup-launch.png" loading="lazy" alt="" />
+          </div>
+          <div class="slide-content">
+            <h2>Turn your ideas into reality.</h2>
+            <p>Consistent quality and eperience across all platform and devices</p>
+          </div>
+        </div>
+        <div class="swiper-slide color-1">
+          <div class="slide-image">
+            <img src="https://raw.githubusercontent.com/ismailvtl/ismailvtl.github.io/master/images/cloud-storage.png" loading="lazy" alt="" />
+          </div>
+          <div class="slide-content">
+            <h2>Turn your ideas into reality.</h2>
+            <p>Consistent quality and eperience across all platform and devices</p>
+          </div>
+        </div>
+      </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
 </div>
-{% endblock %}
+{% endblock %} 
