@@ -23,7 +23,8 @@ class OperationType extends AbstractType
                 [
                     'class' => Operation::class,
                     'label' => false,
-                    'placeholder' => 'choose an operation',
+                    'placeholder' => 'Select operation',
+                   
 
                 ]
             );

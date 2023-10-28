@@ -9,6 +9,7 @@ use App\Entity\Property;
 use App\Entity\PropertyType as EntityPropertyType;
 use App\Entity\User;
 use App\Form\PropertyType;
+use App\Repository\PropertyRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PropertyController extends AbstractController
 {
-    #[Route('/property', name: 'app_property_list')]
-    public function index(): Response
+    #[Route('/property/list', name: 'app_property_list')]
+    public function index(PropertyRepository $propertyRepository): Response
     {
-        return $this->render('pages/property/listProperties.html.twig');
+
+        $properties = $propertyRepository->findAll();
+
+        return $this->render('pages/property/listProperties.html.twig', [
+            'properties' => $properties
+        ]);
     }
 
     #[Route('/property/add', name: 'app_property_add', methods: ['GET', 'POST'])]
@@ -64,6 +70,8 @@ class PropertyController extends AbstractController
 
             //  If the CityRegion doesn't exist.
             if ($cityRegion != null) {
+
+
                 $address->setCityRegion($cityRegion);
 
                 // Mettre à jour la property type pour eviter son persist
@@ -84,7 +92,7 @@ class PropertyController extends AbstractController
                             $entityManager->flush();
                             //display a success message
                             $this->addFlash('success', 'Property Created!');
-                            return $this->redirectToRoute('app_home');
+                            return $this->redirectToRoute('app_property_list');
                         }
                     }
                 }
@@ -97,9 +105,31 @@ class PropertyController extends AbstractController
             // $form->getData();
         } else {
             //else we display the form
+            // return $this->render('pages/property/add.html.twig', [
+            //     'form' => $form->createView(),
+            // ]);
+
+
             return $this->render('pages/property/add.html.twig', [
-                'form' => $form
+                'form' => $form->createView(),
             ]);
         }
+    }
+
+    //show one property 
+    #[Route('/property/{id}', name: 'show_property')]
+    public function showProperty(ManagerRegistry $doctrine, $id): Response
+    {
+
+        $propertyRepository = $doctrine->getRepository(Property::class);
+        $property = $propertyRepository->find($id);
+
+        if (!$property) {
+            $this->addFlash('error', 'The property : $id does not existe');
+            return $this->redirectToRoute('app_property_list');
+        }
+        return $this->render('pages/property/showOneProperty.html.twig', [
+            'property' => $property
+        ]);
     }
 }

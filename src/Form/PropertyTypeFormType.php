@@ -20,10 +20,10 @@ class PropertyTypeFormType extends AbstractType
                 [
                     'class' => PropertyType::class,
                     'by_reference' => true,
-                    'placeholder' => 'choose a property type',
+                    'placeholder' => 'Select property type ',
                     'label' => false,
                     'choice_label' => function (PropertyType $propertyType) {
-                        return sprintf('(%d) %s', $propertyType->getId(), $propertyType->getName());
+                        return sprintf($propertyType->getName());
                     },
                 ]
             );

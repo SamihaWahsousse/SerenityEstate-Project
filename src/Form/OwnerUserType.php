@@ -33,7 +33,7 @@ class OwnerUserType extends AbstractType
                         ->setParameter('role', '%"ROLE_OWNER"%');
                 },
                 'label' => false,
-                'placeholder' => 'choose the owner',
+                'placeholder' => 'Select owner',
                 'choice_label' => function ($user) {
                     return $user->getFullName() . ' -  ' . $user->getEmail();
                 }

@@ -1,99 +1,146 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
-	<div>
-		<h2>Add new Property
-		</h2>
-	</div>
-
-	 <div class="container w-25">
-		{{form_start(form)}}
-		<div>
-			<div>
-				{{form_row(form.description)}}
-				<div class="container d-flex flex-column">
-					{{form_row(form.isAvailable)}}
-				</div>
-			</div>
-
-      
-			<div class="col">
-				{{form_row(form.rooms)}}
-			</div>
-			<div>
-				{{form_row(form.area)}}
-			</div>
-			<div>
-				{{form_row(form.price)}}
-			</div>
-
- <div class="address-collection-container">
-  <div class="address-row">
-    <div class="address-field-with-label main-part  margin-right">
-	<div id="street" class="address-field autocomplete-container">
-		{# {{ form_label(form.address.street, {'attr': {'value': 'street'}}) }} #}
-		{# {{ form_widget(form.address.street, {'attr': {'placeholder': 'test street'}}) }} #}
-	</div>
-
-    </div>
-
-		</div> 
-		</div>
-		{{ form_widget(form.address.street, {'attr': {'readonly' : true}}) }}
-		{{ form_widget(form.address.cityRegion.city, {'attr': {'readonly' : true}}) }}
-		{{ form_widget(form.address.cityRegion.region, {'attr': {'readonly' : true}}) }}
-
-		{{form_end(form)}}
-	</div>
-
-	{# <div class="address-collection-container">
-  <div class="address-row">
-    <div class="address-field-with-label main-part  margin-right">
-      <label for="street3">Street:</label><br>
-      <div id="street3" class="address-field autocomplete-container"></div>
-    </div>
-    
-    <div class="address-field-with-label">
-      <label for="housenumber">House number:</label><br>
-      <input id="housenumber" class="geoapify-autocomplete-input small-input"/>
-    </div>
-  </div>
-
-  <div class="address-row">
-    <div class="address-field-with-label main-part">
-      <label for="address-additional">Apartment, suite (optional):</label><br>
-      <input id="address-additional" class="geoapify-autocomplete-input"/>
-    </div>
-  </div>
-
-  <div class="address-row">
-  
-    <div class="address-field-with-label main-part  margin-right">
-      <label for="city">City:</label><br>
-      <div id="city" class="address-field autocomplete-container"></div>
-    </div>
-  
-    <div class="address-field-with-label">
-      <label for="postcode">ZIP code:</label><br>
-      <input id="postcode" class="geoapify-autocomplete-input small-input"/>
-    </div>
-  </div>
-
-  <div class="address-row">  
-    <div class="address-field-with-label main-part  margin-right">
-      <label for="state">State:</label><br>
-      <div id="state" class="address-field autocomplete-container"></div>
-    </div>
-  
-    <div class="address-field-with-label main-part">
-      <label for="country">Country:</label><br>
-      <div id="country" class="address-field autocomplete-container"></div>
-    </div>
-  </div>
-
-  <div id="message" class="message-container"></div>
-  <div class="button-container"><button onclick="checkAddress()">Check address</button></div>
-</div> #}
-
+{% block stylesheets %}
+	{{parent ()}}
+	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
 {% endblock %}
 
+{# {% block javascripts %}
+	{{parent ()}}
+	<script src="{{ asset("assets/js/goeapify.js")}}" defer></script>
+{% endblock %} #}
+
+{% block body %}
+
+	<!--heading-->
+	<div
+		class="bodyContainer">
+		<!--form-->
+		{{form_start(form)}}
+		<div class="container" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+			<header>Add new Property</header>
+
+			<section class="property-information">
+				<div class="row mt-5">
+					<div class="col-md-4">
+						<div class="form-group mt-2">
+							<label for="propertyType">Property Type</label>
+							{{form_widget(form.propertyType ,{'label':'Property Type','required':true })}}
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							{{form_row(form.address.floorNumber ,{'label':'Floor', 'attr':{'placeholder':'Select floor number'},'required':true })}}
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							{{form_row(form.rooms ,{'label':'Number of rooms', 'attr':{'placeholder':'Select room numbers'},'required':true })}}
+						</div>
+					</div>
+
+
+				</div>
+				<div class="row mt-3">
+					<div class="col-md-4">
+						<div
+							class="form-group">
+							{# <label for="area">Area (m²)</label> #}
+							{{form_row(form.area ,{'attr':{'placeholder':'Write area'},'required':true })}}
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div
+							class="form-group">
+							{# <label for="operation">Operation</label> #}
+							{{form_row(form.operation ,{'attr':{'placeholder':'Select operation'},'required':true })}}
+
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div
+							class="form-group">
+							{# <label for="owner">Owner</label> #}
+							{{form_row(form.owner ,{'label':'Property owner', 'attr':{'placeholder':'Select floor number'},'required':true })}}
+
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="address">
+				<div class="row mt-3">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="address">Property Address</label>
+							{# <input type="text" class="form-control" id="street" placeholder="Write address"></input> #}
+							<div class="address-field autocomplete-container" id="street"></div>
+						</div>
+					</div>
+
+
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="address">Street</label>
+							{# <input type="text" class="form-control" id="address"> #}
+							{{ form_widget(form.address.street, {'attr': {'readonly' : true,'placeholder':'Street'}}) }}
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="city">City</label>
+							{# <input type="text" class="form-control" id="city"> #}
+							{{ form_widget(form.address.cityRegion.city, {'attr': {'readonly' : true,'placeholder':'City'}}) }}
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="region">Region</label>
+							{{ form_widget(form.address.cityRegion.region, {'attr': {'readonly' : true,'placeholder':'Region'}}) }}
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+			<section class="complement-information">
+				<div class="row mt-3">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="description">Description</label>
+							{{form_widget(form.description,{'required':true })}}
+
+						</div>
+					</div>
+
+					<div class="col-md-3 ">
+						<div class="form-group">
+							{{form_row(form.price)}}
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							{{form_row(form.isAvailable)}}
+						</div>
+					</div>
+
+
+				</div>
+			</section>
+
+
+			<div class="row mt-3 justify-content-start">
+				<div class="col-md-2">
+					{{form_row(form.Submit)}}
+				</div>
+				<div class="col-md-1">
+					{{form_row(form.Reset)}}
+				</div>
+				{{form_end(form)}}
+			</div>
+		</div>
+	</div>
+{% endblock %}

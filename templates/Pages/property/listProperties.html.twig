@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% block title %} Properties list {% endblock %}
+
         {% block stylesheets %}
             {{parent ()}}
             <link rel="stylesheet" href="{{ asset("assets/css/listCrudProperties.css")}}" />
@@ -10,6 +12,17 @@
         {% endblock %} 
 
 {% block body %}
+<div class="flash-messages">
+            {% set flashbag_notices = app.session.flashBag('success') %}
+            {% for messages in app.session.flashBag.all()%}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
 <div class="container">
   <div class="table-wrapper">
     <div class="table-title">
@@ -41,24 +54,30 @@
         </tr>
       </thead>
       <tbody>
+
+      {% for property in properties %}
+
         <tr>
           <td>
             <span class="custom-checkbox">
-								<input type="checkbox" id="checkbox3" name="options[]" value="1">
-								<label for="checkbox3"></label>
+								<input type="checkbox" id="checkbox{{loop.index}}" name="options[]" value="1">
+								<label for="checkbox3{{loop.index}}"></label>
 							</span>
           </td>
-          <td>1</td>
-          <td>available</td>
-          <td>25, rue Lauriston, Paris, France</td>
-          <td>Maria.Anders@gmail.com</td>
+
+          <td>{{property.id}}</td>
+          <td>{{property.isAvailable}}</td>
+          <td> {{property.address}}</td>
+          <td>{{property.owner}}</td>
           <td>
             <a href="#editEmployeeModal" class="edit" data-toggle="modal"> <i class="fa fa-eye" data-toggle="tooltip" title="Edit"></i>
              </a> 
             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
           </td>
         </tr>
-        <tr>
+      {% endfor %}
+
+        {# <tr>
           <td>
             <span class="custom-checkbox">
 								<input type="checkbox" id="checkbox4" name="options[]" value="1">
@@ -89,7 +108,7 @@
             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Edit"></i></a>
             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
           </td>
-        </tr>
+        </tr> #}
       </tbody>
     </table>
     <div class="clearfix">
