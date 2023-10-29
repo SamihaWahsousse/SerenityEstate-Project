@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,13 +20,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class PropertyController extends AbstractController
 {
     #[Route('/property/list', name: 'app_property_list')]
-    public function index(PropertyRepository $propertyRepository): Response
+    public function index(PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator): Response
     {
 
-        $properties = $propertyRepository->findAll();
-
+        $pagination = $paginator->paginate(
+            $propertyRepository ->paginationQuery(),
+            $request->query->get('page',1),
+          5
+        );
+        // $properties = $propertyRepository->findAll();
         return $this->render('pages/property/listProperties.html.twig', [
-            'properties' => $properties
+            // 'properties' => $properties
+            'pagination'=>$pagination
         ]);
     }
 
