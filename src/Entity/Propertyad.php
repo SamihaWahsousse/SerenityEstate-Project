@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PropertyadRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PropertyadRepository::class)]
 class Propertyad
 {
@@ -31,6 +32,15 @@ class Propertyad
     #[ORM\ManyToOne(inversedBy: 'propertyads')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Property $property = null;
+
+ #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -108,4 +118,24 @@ class Propertyad
 
         return $this;
     }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+    
+#[ORM\PrePersist]
+  public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+        
+    }
+    
 }
