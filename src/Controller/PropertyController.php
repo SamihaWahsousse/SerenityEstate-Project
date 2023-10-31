@@ -9,7 +9,10 @@ use App\Entity\Property;
 use App\Entity\PropertyType as EntityPropertyType;
 use App\Entity\User;
 use App\Form\PropertyType;
+use App\Repository\OperationRepository;
 use App\Repository\PropertyRepository;
+use App\Repository\PropertyTypeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,67 +25,58 @@ class PropertyController extends AbstractController
     #[Route('/property/list', name: 'app_property_list')]
     public function index(PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        /**
+         * This controller display all properties
+         * 
+         */
 
-        $pagination = $paginator->paginate(
+        $properties = $paginator->paginate(
             $propertyRepository ->paginationQuery(),
             $request->query->get('page',1),
           5
         );
-        // $properties = $propertyRepository->findAll();
         return $this->render('pages/property/listProperties.html.twig', [
-            // 'properties' => $properties
-            'pagination'=>$pagination
+            'properties'=>$properties
         ]);
     }
 
     #[Route('/property/add', name: 'app_property_add', methods: ['GET', 'POST'])]
     public function addProperty(Request $request, ManagerRegistry $doctrine): Response
     {
+        
         $property = new Property();
+     
         $form = $this->createForm(PropertyType::class, $property);
+        $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
+        $form->remove("updatedAt"); //remove the updatedAt from the form it will be generated automatically
 
-
-        //remove the createdAt from the form it will be generated automatically
-        $form->remove("createdAt");
-
-        //handle the request 
-        $form->handleRequest($request);
-        //get the submitted data
-        if ($form->isSubmitted()) {
+        $form->handleRequest($request); //handle the request 
+      
+        if ($form->isSubmitted() && $form->isValid()) {  //get the submitted data-if the form is submitted, we add the property object in the DB and redirect to list properties page
             $entityManager = $doctrine->getManager();
 
-            // Récupérer la propety type sélectionnée depuis la BD
-            $propertyType = $entityManager->getRepository(EntityPropertyType::class)->findOneBy(
+            $propertyType = $entityManager->getRepository(EntityPropertyType::class)->findOneBy(  // Récupérer la propety type sélectionnée depuis la BD
                 ['name' => $property->getPropertyType()->getName()]
             );
 
-            // Récupérer l'opération sélectionnée depuis la BD
-            $operation = $property->getOperation()->getName();
+            $operation = $property->getOperation()->getName(); // Récupérer l'opération sélectionnée depuis la BD
 
             $operationQuery = $entityManager->getRepository(Operation::class)->findOneBy(
                 ['name' => $operation]
             );
-            // dd($operationQuery);
 
             $address = $property->getAddress();
-            //Récupérer la région et city envoyée par le formulaire
-            $cityRegionValue = $address->getCityRegion()->getCity();
+            $cityRegionValue = $address->getCityRegion()->getCity(); //Récupérer la région et city envoyée par le formulaire
             $regionValue = $address->getCityRegion()->getRegion();
 
-            // Récupérer cityRegion depuis la BD
-            $cityRegion = $entityManager->getRepository(CityRegion::class)->findOneBy(
+            $cityRegion = $entityManager->getRepository(CityRegion::class)->findOneBy( // Récupérer cityRegion depuis la BD
                 ['city' => $cityRegionValue, 'region' => $regionValue]
             );
 
-            //  If the CityRegion doesn't exist.
-            if ($cityRegion != null) {
-
-
+            if ($cityRegion != null) { //  If the CityRegion doesn't exist.
                 $address->setCityRegion($cityRegion);
 
-                // Mettre à jour la property type pour eviter son persist
-                if ($propertyType  != null) {
-
+                if ($propertyType  != null) { // Mettre à jour la property type pour eviter son persist
                     $owner = $property->getOwner();
                     $owner = $entityManager->getRepository(User::class)->findOneBy(
                         ['email' => $owner->getEmail()]
@@ -94,10 +88,11 @@ class PropertyController extends AbstractController
                             $property->setOwner($owner);
                             $property->setPropertyType($propertyType);
                             $property->setAddress($address);
+                            
                             $entityManager->persist($property);
                             $entityManager->flush();
-                            //display a success message
-                            $this->addFlash('success', 'Property Created!');
+                            
+                            $this->addFlash('success', 'Property Created!'); //display a success message
                             return $this->redirectToRoute('app_property_list');
                         }
                     }
@@ -106,16 +101,7 @@ class PropertyController extends AbstractController
             //else envoyé un msg erreur 
 
 
-            //if the form is submitted, we add the property object in the DB and redirect to home page and 
-            // dd($property);
-            // $form->getData();
-        } else {
-            //else we display the form
-            // return $this->render('pages/property/add.html.twig', [
-            //     'form' => $form->createView(),
-            // ]);
-
-
+        } else {  //else we display the form
             return $this->render('pages/property/add.html.twig', [
                 'form' => $form->createView(),
             ]);
@@ -136,6 +122,33 @@ class PropertyController extends AbstractController
         }
         return $this->render('pages/property/showOneProperty.html.twig', [
             'property' => $property
+        ]);
+    }
+
+    //Edit property 
+    #[Route('/property/edit/{id}', name: 'edit_property', methods: ['GET', 'POST'])]
+    public function editProperty(PropertyRepository $propertyRepository, int $id,Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $property = $propertyRepository->findOneBy(['id' => $id]);
+        $form = $this->createForm(PropertyType::class,$property, ['data' => $property]);
+        
+        $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
+
+        $form->handleRequest($request); //handle the request 
+        // dd($form->getData());
+        
+        if ($form->isSubmitted() && $form->isValid()) {  //get the submitted data-if the form is submitted, we add the property object in the DB and redirect to list properties page
+            $property = $form->getData();
+            
+            $entityManager ->persist($property);
+            $entityManager->flush();   
+            
+            $this->addFlash('success', 'Property Updated!'); //display a success message
+            return $this->redirectToRoute('app_property_list');
+        }
+            
+        return $this->render('pages/property/edit.html.twig', [
+            'form'=>$form->createView(),
         ]);
     }
 }

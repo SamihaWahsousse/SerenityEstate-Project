@@ -36,10 +36,9 @@
 	background-color: #4070f4;
 }
 .container form {
-	position: relative; 
+	position: relative;
 	margin-top: 16px;
 	min-height: 490px;
-	background-color: #ffff;
 }
 .details personal {
 	margin-top: 30px;

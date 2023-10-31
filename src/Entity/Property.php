@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
@@ -54,9 +55,13 @@ class Property
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Contract::class)]
     private Collection $contracts;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
         $this->propertyads = new ArrayCollection();
         $this->contracts = new ArrayCollection();
     }
@@ -78,7 +83,7 @@ class Property
         return $this;
     }
 
-    public function isIsAvailable(): ?bool
+    public function isAvailable(): ?bool
     {
         return $this->isAvailable;
     }
@@ -245,4 +250,30 @@ class Property
 
         return $this;
     }
+
+ public function __toString()
+             {
+                 return $this->getId() . ', ' . $this->getAddress();
+             }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+        
+        return $this;
+    }
+    
+
+#[ORM\PrePersist]
+  public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+        
+    }
+    
 }

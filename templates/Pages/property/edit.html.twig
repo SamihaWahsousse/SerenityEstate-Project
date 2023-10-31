@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+	{{parent ()}}
+	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
+{% endblock %}
+
+{% block body %}
+
+	<div>
+
+		{{form_start(form)}}
+
+		{# <div class="form-group mt-2">
+																								<label for="propertyType">Property Type</label> #}
+		{# {{form_widget(form.propertyType ,{'value': 37 })}} #}
+
+		{# </div> #}
+			<div class="form-group"> <label for="{{ form.propertyType.vars.id }}">Property Type</label>
+			{{ form_widget(form.propertyType) }}
+		</div>
+
+	</div>
+	{{form_end(form)}}
+{% endblock %}

@@ -14,59 +14,86 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Form\OwnerUserType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PropertyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // dd($options['data']);
         $builder
             ->add('description', TextareaType::class,[
-                
+                'constraints' => [
+                   new Assert\NotBlank()
+                ]
             ])
             ->add('isAvailable', ChoiceType::class, [
                 'choices' => [
-                    'Yes' => 'Yes',
-                    'No' => 'No',
+                    'Yes' => 1,
+                    'No' => 0,
                 ],
                 'expanded' => true, // Set to true to use radio buttons
-                'label'=>'Availability'
+                'label'=>'Availability',
+                // 'data'=>$options['data']->isAvailable()
+                // 'data'=>'Yes'
+                'data'=>$options['data']->isAvailable() ? $options['data']->isAvailable() : 0
             ])
-            ->add('rooms')
+            ->add('rooms',NumberType::class,[
+                 'constraints' => [
+                   new Assert\NotBlank(),
+                   new Assert\Positive()
+                ]
+            ])
             ->add('area',NumberType::class,[
-                'label'=>'Area (m²)'
+                'label'=>'Area (m²)',
+                 'constraints' => [
+                   new Assert\NotBlank(),
+                   new Assert\Positive()
+                ]
             ])
-            ->add('price', NumberType::class,[
-               'label'=>'Price (€)'
+            ->add('price', MoneyType::class,[
+               'label'=>'Price',
+                'constraints' => [
+                   new Assert\NotBlank(),
+                   new Assert\Positive()
+                ]
             ])
             ->add('createdAt', DateType::class, [
                 'required' => false,
-             
             ])
             ->add('address', AddressType::class)
+            
             ->add('propertyType', PropertyTypeFormType::class, [
-                'label' => 'Select property type',
-                'by_reference' => true, // label for the property type field
-    
-            ])
+                 'label' => 'Maison',
+                'by_reference' => true,
+                'data' => $options['data']->getPropertyType()
+            ]) 
             ->add('operation', OperationType::class,[
-                'label'=>'Operation'
+                'label'=>'Operation',
+                'data' => $options['data']->getOperation()
             ])
+            
             ->add('owner', OwnerUserType::class, [
                 'label' => 'Select Owner',
                 'by_reference' => true,
+                'data'=>$options['data']->getOwner()
+             ])
+            ->add('Submit', SubmitType::class,[
+           'label' => 'Create'
             ])
-            ->add('Submit', SubmitType::class)
             ->add('Reset', ResetType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Property::class,
-
+          'data_class' => Property::class,
         ]);
     }
 }

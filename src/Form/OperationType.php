@@ -24,8 +24,7 @@ class OperationType extends AbstractType
                     'class' => Operation::class,
                     'label' => false,
                     'placeholder' => 'Select operation',
-                   
-
+                    'data' => $options['data']
                 ]
             );
     }

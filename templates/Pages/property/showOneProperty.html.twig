@@ -6,12 +6,13 @@
 	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
 {% endblock %}
 
-{# {% block javascripts %}
-          {{parent ()}} 
-          <script src="{{ asset("assets/js/listCrudProperties.js")}}" defer></script>  
-        {% endblock %}  #}
+{% block javascripts %}
+	{{parent ()}}
+	<script src="{{ asset("assets/js/showPropertyModal.js")}}" defer></script>
+{% endblock %}
 
 {% block body %}
+
 
 {# <div >
             {{property.id}}  {{property.description}} {{property.address}} : Date of creation {{property.createdAt| date('d-m-Y')}}
@@ -20,181 +21,173 @@
 
         {% block title %} 
             Property N°: {{property.id}}  #}
-
-
 	<!--heading-->
 	<div
 		class="bodyContainer">
+		<!--Display One property-->
 
 
-		<!--my form-->
 		<div class="container" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-			<header>Property details Form</header>
-			<form action="#">
-				<div class="form first">
-					<div class="details personal">
-						<span class="title">Property Details</span>
+			<header>Property Reference :
+				{{property.id}}</header>
 
-						<div class="fields">
-							<div class="input-fields">
-								<label>Full Name</label>
-								<input type="text" placeholder="Write your Full Name" required></input>
+			<section class="property-information">
+				<div class="row mt-5">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="propertyType">Property Type</label>
+							<div class="form-control">{{property.propertyType}}</div>
 						</div>
-
-						<div class="input-fields">
-							<label>Date Of Birth</label>
-							<input type="date" placeholder="Write your Date Of Birth" required>
-						</div>
-
-						<div class="input-fields">
-							<label>Email</label>
-							<input type="Email" placeholder="Write your Email" required>
-						</div>
-
-						<div class="input-fields">
-							<label>Mobile Number</label>
-							<input type="number" placeholder="Write your Mobile Number" required>
-						</div>
-
-						<div class="input-fields">
-							<label>Gender</label>
-							<select class="form-select" aria-label="Default select example">
-								<option selected>Select</option>
-								<option value="1">Male</option>
-								<option value="2">Female</option>
-							</select>
-						</div>
-
-						<div class="input-fields">
-							<label>Occupation</label>
-							<input type="text" placeholder="Write your Occupation" required>
-						</div>
-
 					</div>
 
-				</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="Floor">Floor</label>
+							<div class="form-control">{{property.address.floorNumber}}</div>
+						</div>
+					</div>
 
-				<div class="details ID">
-					<span class="title">Identity Details</span>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="rooms">Number of rooms</label>
+							<div class="form-control">{{property.rooms}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="area">Area (m²)</label>
+							<div class="form-control">{{property.area}}
+							</div>
+						</div>
+					</div>
 
-					<div class="fields">
-						<div class="input-fields">
-							<label>ID type</label>
-							<input type="text" placeholder="Write your ID Type" required>
+
+					<div class="row mt-3">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="operation">Operation</label>
+								<div class="form-control">{{property.operation}}
+								</div>
+							</div>
 						</div>
 
-						<div class="input-fields">
-							<label>Previous Licence Number</label>
-							<input type="number" placeholder="Write your Previous Licence Number" required>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="owner">Owner</label>
+								<div class="form-control">{{property.owner}}
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="area">Created At</label>
+								<div class="form-control">{{property.createdAt.format('d/m/Y')}}
+								</div>
+							</div>
 						</div>
 
-						<div class="input-fields">
-							<label>Id Number</label>
-							<input type="number" placeholder="Write your ID Number" required>
-						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="area">Updated At</label>
+								{{property.updatedAt ?
+								'<div class="form-control">{{property.updatedAt.format("d/m/Y")}}</div>' : '<div class="form-control">-</div>'}}
 
-						<div class="input-fields">
-							<label>Issuying Authority</label>
-							<select class="form-select" aria-label="Default select example">
-								<option selected>Select</option>
-								<option value="1">BRTA</option>
-								<option value="2">BRTC</option>
-								<option value="3">RHD</option>
-							</select>
-						</div>
-
-						<div class="input-fields">
-							<label>Issued Date</label>
-							<input type="date" placeholder="Write your Issued Date" required>
-						</div>
-
-						<div class="input-fields">
-							<label>Expiry Date</label>
-							<input type="date" placeholder="Write your Expiry Date" required>
+							</div>
 						</div>
 
 
 					</div>
+				</section>
 
-				</div>
-				<div class="row g-3" id="form-second">
-					<span class="title">Address</span>
-					<div class="col-12">
-						<label for="inputAddress2" class="form-label">Present Address</label>
-						<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-					</div>
-					<div class="col-md-6">
-						<label for="inputCity" class="form-label">Police Station</label>
-						<input type="text" class="form-control" id="inputCity">
-					</div>
-					<div class="col-md-4">
-						<label for="inputState" class="form-label">City</label>
-						<select id="inputState" class="form-select">
-							<option selected>Choose</option>
-							<option>Dhaka</option>
-							<option>Chittagong</option>
-							<option>Rajshahi</option>
-							<option>Cumilla</option>
-							<option>Bagura</option>
-							<option>Cox's Bazar</option>
-							<option>Feni</option>
-							<option>Sylhet</option>
-						</select>
-					</div>
-					<div class="col-md-2">
-						<label for="inputZip" class="form-label">Zip</label>
-						<input type="number" class="form-control" id="inputZip">
-					</div>
-					<div class="col-12">
-						<label for="inputAddress2" class="form-label">Permanent Address</label>
-						<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-					</div>
-					<div class="col-md-6">
-						<label for="inputCity" class="form-label">Police Station</label>
-						<input type="text" class="form-control" id="inputCity">
-					</div>
-					<div class="col-md-4">
-						<label for="inputState" class="form-label">City</label>
-						<select id="inputState" class="form-select">
-							<option selected>Choose</option>
-							<option>Dhaka</option>
-							<option>Chittagong</option>
-							<option>Rajshahi</option>
-							<option>Cumilla</option>
-							<option>Bagura</option>
-							<option>Cox's Bazar</option>
-							<option>Feni</option>
-							<option>Sylhet</option>
-						</select>
-					</div>
-					<div class="col-md-2">
-						<label for="inputZip" class="form-label">Zip</label>
-						<input type="number" class="form-control" id="inputZip">
-					</div>
-					<div class="row" id="upload">
-						<div class="col-md-4">
-							<label for="formFile" class="form-label">Previous Licence(if applicable)</label>
-							<input class="form-control" type="file" id="formFile">
+				<section class="address">
+					<div class="row mt-3">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="address">Street</label>
+								<div class="form-control">{{property.address.street}}
+								</div>
+
+							</div>
 						</div>
-						<div class="col-md-4">
-							<label for="formFile" class="form-label">Passport Size Photo</label>
-							<input class="form-control" type="file" id="formFile">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="city">City</label>
+								<div class="form-control">{{property.address.cityRegion.city}}
+								</div>
+							</div>
 						</div>
-						<div class="col-md-4">
-							<label for="formFile" class="form-label">NID Card</label>
-							<input class="form-control" type="file" id="formFile">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="region">Region</label>
+								<div class="form-control">{{property.address.cityRegion.region}}
+								</div>
+							</div>
 						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="price">Price(€)</label>
+								<div class="form-control">{{property.price}}
+								</div>
+							</div>
+						</div>
+
 					</div>
-					<div class="col-12" id="btn">
-						<button type="submit" class="btn btn-primary">Submit</button>
-						<button type="reset" class="btn btn-primary">Reset</button>
+				</section>
+				<section class=" complement-information">
+					<div class="row mt-3">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="description">Description</label>
+								<textarea class="form-control" row="2">{{property.description}}
+								</textarea>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="price">Availability</label>
+								{% if property.isAvailable is same as (0) %}
+									<div class="form-control">No</div>
+								{% else %}
+									<div class="form-control">Yes</div>
+								{% endif %}
+
+							</div>
+						</div>
+					</section>
+
+					<!-- Buttons -->
+					<div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-between">
+
+						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
+
+						<div class="text-nowrap">
+							{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {'property': property} )) }}
+						</div>
+						{# <button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Create Property Ads</button> #}
+
+						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads
+						</button>
+
+						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Archive Property Ads</button>
+
+						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
+
+						{# <div>
+																																					{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {'property': property} )) }}
+																																				</div> #}
+
+
+					{# <button type="button" class="btn btn-primary text-nowrap" href="#addEmployeeModal" data-bs-toggle="modal" autocomplete="off" data-target="#addEmployeeModal" data-wat={{property.id}}>Add Property Ads</button> #}
+
+						{# {% set submit_url = path('add_propertyAd', {'id': property.id}) %}
+																																																																																{% include 'Pages/propertyAd/addAd.html.twig' with {url: submit_url} %} #}
+
+						{# <a href="#addEmployeeModal" class="btn btn-success" data-bs-toggle="modal" data-target="#addEmployeeModal">							<i class="fa fa-plus"><i>												<span>Add Property Ads</span>	</a> #}
 					</div>
 				</div>
 			</div>
 
 
-		</form>
-
-
-	</div>
-{% endblock %}
+		{% endblock %}

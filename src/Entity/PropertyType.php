@@ -31,12 +31,12 @@ class PropertyType
         return $this->id;
     }
 
-    /*
+    
     public function setId(String $id): static
     {
         $this->id = $id;
         return $this;
-    }*/
+    }
 
     public function getName(): ?string
     {
@@ -79,7 +79,6 @@ class PropertyType
 
         return $this;
     }
-
 
     public function __toString()
     {

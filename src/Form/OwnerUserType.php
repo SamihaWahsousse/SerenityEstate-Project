@@ -36,7 +36,8 @@ class OwnerUserType extends AbstractType
                 'placeholder' => 'Select owner',
                 'choice_label' => function ($user) {
                     return $user->getFullName() . ' -  ' . $user->getEmail();
-                }
+                },
+                'data'=>$options['data']
             ]);
     }
 

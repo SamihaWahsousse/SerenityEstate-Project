@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\PropertyType;
+use App\Repository\OperationRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,8 +25,10 @@ class PropertyTypeFormType extends AbstractType
                     'label' => false,
                     'choice_label' => function (PropertyType $propertyType) {
                         return sprintf($propertyType->getName());
-                    },
+                    }, 
+                    'data' => $options['data']
                 ]
+                
             );
     }
 
