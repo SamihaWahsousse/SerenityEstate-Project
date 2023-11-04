@@ -1,40 +1,47 @@
 <!-- Button Add Property Ads HTML -->
-<button type="button" class="btn btn-primary text-nowrap" href="#addEmployeeModal" data-bs-toggle="modal" autocomplete="off" data-target="#addEmployeeModal">Add Property Ads</button>
+<button type="button" class="btn btn-success text-nowrap" href="#addEmployeeModal" data-bs-toggle="modal" autocomplete="off" data-target="#addEmployeeModal">
+	<i class="fa fa-plus"></i>
+	<span>Add Property Ads</span>
+</button>
 
 
 <!-- Add Property Ads Modal HTML -->
 
 <div id="addEmployeeModal" class="modal fade">
-	{{form_start(form)}}
-	<div class="modal-dialog">
+
+	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form>
-				<div class="modal-header">
-					<h4 class="modal-title">Add Property Ads</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						{{ form_row(form.property, { "label": "Property" }) }}
-					</div>
-					<div class="form-group">
-						{{ form_row(form.title, { "label": "Title" }) }}
-					</div>
-					<div class="form-group">
-						{{ form_row(form.fees, { "label": "Fees" }) }}
-					</div>
-					<div class="form-group">
-						{{ form_row(form.guarantee, { "label": "Guarantee" }) }}
-					</div>
-				</div>
 
-				{{form_end(form)}}
+			<div class="modal-header">
+				<h4 class="modal-title">Create Property Ads</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+			</div>
+			{{form_start(form)}}
+			<div class="modal-body">
+				<div class="form-group"></div>
 
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Save">
+				<div class="form-group">
+					{{ form_widget(form.property, { "attr": { "hidden" : true }}) }}
 				</div>
-			</form>
+				<div class="form-group">
+					{{ form_row(form.title, { "label": "Title" }) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(form.fees, { "label": "Fees(€)" }) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(form.guarantee, { "label": "Guarantee(€)" }) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(form.isActive, { "label": "is Active" }) }}
+				</div>
+			</div>
+
+			<div class="modal-footer align-items-start">
+				<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				{{form_row(form.Submit,{'attr':{'class':'btn btn-success'}})}}
+			</div>
+			{{form_end(form)}}
 		</div>
 	</div>
 </div>

@@ -12,23 +12,12 @@
 {% endblock %}
 
 {% block body %}
-
-
-{# <div >
-            {{property.id}}  {{property.description}} {{property.address}} : Date of creation {{property.createdAt| date('d-m-Y')}}
-        </div>     
-        {% endblock %}
-
-        {% block title %} 
-            Property N°: {{property.id}}  #}
-	<!--heading-->
 	<div
-		class="bodyContainer">
+		class="bodyContainer flex-nowrap ">
+
 		<!--Display One property-->
-
-
-		<div class="container" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-			<header>Property Reference :
+		<div class="container" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded ">
+			<header>Details Property Reference :
 				{{property.id}}</header>
 
 			<section class="property-information">
@@ -81,7 +70,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="area">Created At</label>
+								<label for="date">Created At</label>
 								<div class="form-control">{{property.createdAt.format('d/m/Y')}}
 								</div>
 							</div>
@@ -89,7 +78,7 @@
 
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="area">Updated At</label>
+								<label for="date">Updated At</label>
 								{{property.updatedAt ?
 								'<div class="form-control">{{property.updatedAt.format("d/m/Y")}}</div>' : '<div class="form-control">-</div>'}}
 
@@ -155,39 +144,21 @@
 
 							</div>
 						</div>
-					</section>
-
-					<!-- Buttons -->
-					<div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-between">
-
-						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
-
-						<div class="text-nowrap">
-							{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {'property': property} )) }}
-						</div>
-						{# <button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Create Property Ads</button> #}
-
-						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads
-						</button>
-
-						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Archive Property Ads</button>
-
-						<button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
-
-						{# <div>
-																																					{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {'property': property} )) }}
-																																				</div> #}
-
-
-					{# <button type="button" class="btn btn-primary text-nowrap" href="#addEmployeeModal" data-bs-toggle="modal" autocomplete="off" data-target="#addEmployeeModal" data-wat={{property.id}}>Add Property Ads</button> #}
-
-						{# {% set submit_url = path('add_propertyAd', {'id': property.id}) %}
-																																																																																{% include 'Pages/propertyAd/addAd.html.twig' with {url: submit_url} %} #}
-
-						{# <a href="#addEmployeeModal" class="btn btn-success" data-bs-toggle="modal" data-target="#addEmployeeModal">							<i class="fa fa-plus"><i>												<span>Add Property Ads</span>	</a> #}
 					</div>
+				</section>
+
+				<!-- Buttons -->
+				<div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-center no-wrap">
+
+					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
+
+					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
+					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads</button>
+					{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {IdProperty: property.id} )) }}
+
 				</div>
 			</div>
+		</div>
+	</div>
 
-
-		{% endblock %}
+{% endblock %}

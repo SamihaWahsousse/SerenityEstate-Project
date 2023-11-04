@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Property;
 use App\Entity\Propertyad;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,9 +20,11 @@ class PropertyAdForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('property', TextType::class, [
-                'attr' => ['disabled' => true]
-            ])
+            ->add('property'//, EntityType::class, [
+                // 'class' => Property::class,
+                //'data' => $options['data']->getProperty(),
+                // 'attr' => ['disabled' => true] 
+            )
             ->add('title',TextareaType::class,[
                  'constraints' => [
                     new Assert\NotBlank()
@@ -40,10 +44,9 @@ class PropertyAdForm extends AbstractType
             ])
             ->add('isActive')
             ->add('Submit', SubmitType::class,[
-              'label' => 'Create Ads'
-            ])
-           
-        ;
+              'label' => 'Create ',
+         
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

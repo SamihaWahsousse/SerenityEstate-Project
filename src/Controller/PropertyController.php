@@ -6,8 +6,10 @@ use App\Entity\Address;
 use App\Entity\CityRegion;
 use App\Entity\Operation;
 use App\Entity\Property;
+use App\Entity\Propertyad;
 use App\Entity\PropertyType as EntityPropertyType;
 use App\Entity\User;
+use App\Form\PropertyAdForm;
 use App\Form\PropertyType;
 use App\Repository\OperationRepository;
 use App\Repository\PropertyRepository;
@@ -110,12 +112,22 @@ class PropertyController extends AbstractController
 
     //show one property 
     #[Route('/property/{id}', name: 'show_property')]
-    public function showProperty(ManagerRegistry $doctrine, $id): Response
+    public function showProperty(Request $request, ManagerRegistry $doctrine, $id): Response
     {
-
         $propertyRepository = $doctrine->getRepository(Property::class);
         $property = $propertyRepository->find($id);
 
+
+        // $propertyAd = new Propertyad();
+        // $form = $this->createForm(PropertyAdForm::class, $propertyAd);
+        // $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
+        // $form->remove("updatedAt"); 
+        // $form->handleRequest($request); //handle the request 
+        
+        // if ($form->isSubmitted() && $form->isValid()) { 
+        //     dd('test');
+        // }
+        
         if (!$property) {
             $this->addFlash('error', 'The property : $id does not existe');
             return $this->redirectToRoute('app_property_list');

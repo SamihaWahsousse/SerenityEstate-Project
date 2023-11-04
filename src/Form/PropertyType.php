@@ -42,7 +42,7 @@ class PropertyType extends AbstractType
                 'label'=>'Availability',
                 // 'data'=>$options['data']->isAvailable()
                 // 'data'=>'Yes'
-                'data'=>$options['data']->isAvailable() ? $options['data']->isAvailable() : 0
+                'data'=>$options['data']->isAvailable() ? $options['data']->isAvailable() : 1
             ])
             ->add('rooms',NumberType::class,[
                  'constraints' => [
@@ -85,7 +85,10 @@ class PropertyType extends AbstractType
                 'data'=>$options['data']->getOwner()
              ])
             ->add('Submit', SubmitType::class,[
-           'label' => 'Create'
+           'label' => 'Create',
+            'attr'=>[
+                'class'=>'btn-success',
+            ]
             ])
             ->add('Reset', ResetType::class);
     }
@@ -94,6 +97,7 @@ class PropertyType extends AbstractType
     {
         $resolver->setDefaults([
           'data_class' => Property::class,
+        //   'translation_domain'=>'forms'
         ]);
     }
 }

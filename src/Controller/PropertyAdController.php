@@ -24,28 +24,40 @@ class PropertyAdController extends AbstractController
     }
 
     #[Route('/propertyAd/add', name: 'add_propertyAd', methods: ['GET', 'POST'])]
-    public function addPropertyAd(Request $request, ManagerRegistry $doctrine, PropertyRepository $pr, Property $property): Response
+    public function addPropertyAd(Request $request, ManagerRegistry $doctrine, PropertyRepository $propertyRepo, ?int $IdProperty): Response
     {
-            
+        
         $propertyAd = new Propertyad();
-        $propertyAd->setProperty($property);
-        $form = $this->createForm(PropertyAdForm::class, $propertyAd);
-        $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
-        $form->remove("updatedAt"); //remove the updatedAt from the form it will be generated automatically
-
-        $form->handleRequest($request); //handle the request 
-        if ($form->isSubmitted() && $form->isValid()) { 
-              
-              $entityManager = $doctrine->getManager();
-              $entityManager ->persist($propertyAd);
-              $entityManager->flush();
-              $this->addFlash('success', 'Property Ads Created !');
-            return $this->redirectToRoute('app_property_list');           
+        if($IdProperty) {
+            $propertyAd->setProperty($propertyRepo->findOneBy(['id' => $IdProperty]));
         }
-       // dd('test');
+        $form = $this->createForm(PropertyAdForm::class, $propertyAd, ['action' => $this->generateUrl('add_propertyAd')]);
+        $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
+        $form->remove("updatedAt"); //remove the updatedAt from the form it will be generated automatically              
+        $form->handleRequest($request); //handle the request 
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request->request);
+            $entityManager = $doctrine->getManager();
+            // $selectedProperty = $propertyRepo->findOneBy(  // Récupérer la propety sélectionnée depuis la BD
+            //     ['id' => $requestPropertyId]);
+            
+            if ($propertyAd != null) {
+               // $propertyAd->setProperty($selectedProperty);              
+                $entityManager ->persist($propertyAd);
+                $entityManager->flush();
+                
+                $this->addFlash('success', 'Property Ads Created !');
+            return $this->redirectToRoute('app_property_list'); 
+                      
+            } else {
+             dd('test');
+        }
+        }
         return $this->render('pages/propertyAd/addAd.html.twig', [
                 'propertyAd'=>$propertyAd,
                 'form' => $form->createView(),
             ]);
-    }
-}
+        }
+        }
+    
