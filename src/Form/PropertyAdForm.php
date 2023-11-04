@@ -6,6 +6,8 @@ use App\Entity\Property;
 use App\Entity\Propertyad;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -20,11 +22,7 @@ class PropertyAdForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('property'//, EntityType::class, [
-                // 'class' => Property::class,
-                //'data' => $options['data']->getProperty(),
-                // 'attr' => ['disabled' => true] 
-            )
+            ->add('property')
             ->add('title',TextareaType::class,[
                  'constraints' => [
                     new Assert\NotBlank()
@@ -42,7 +40,11 @@ class PropertyAdForm extends AbstractType
                    new Assert\Positive()
                 ]
             ])
-            ->add('isActive')
+            ->add('isActive',CheckboxType::class,[
+               'attr'=>[
+                'checked'=>'checked',
+               ]
+            ])
             ->add('Submit', SubmitType::class,[
               'label' => 'Create ',
          

@@ -58,6 +58,9 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isPropertyAdCreated = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -252,9 +255,9 @@ class Property
     }
 
  public function __toString()
-             {
-                 return $this->getId() . ', ' . $this->getAddress();
-             }
+                      {
+                          return $this->getId() . ', ' . $this->getAddress();
+                      }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -275,5 +278,17 @@ class Property
         $this->updatedAt = new \DateTimeImmutable();
         
     }
+
+public function isIsPropertyAdCreated(): ?bool
+{
+    return $this->isPropertyAdCreated;
+}
+
+public function setIsPropertyAdCreated(?bool $isPropertyAdCreated): static
+{
+    $this->isPropertyAdCreated = $isPropertyAdCreated;
+
+    return $this;
+}
     
 }

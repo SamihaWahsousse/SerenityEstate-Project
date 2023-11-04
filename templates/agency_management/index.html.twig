@@ -60,9 +60,8 @@
 				<i class="fa fa-bars" aria-hidden="true"></i>
 			</div>
 			<div class="navbar__left">
-				<a href="#">Clients</a>
-				<a href="#">Test</a>
-				<a class="active_link" href="#">Statistics</a>
+				<a class="active_link" href="#">Dashboard</a>
+				<a href="{{ path('app_home') }}">Home</a>
 			</div>
 			<div class="navbar__right">
 				<a href="#">
@@ -99,9 +98,7 @@
 							<h1>Welcome
 								{{app.user.fullName}}
 							</h1>
-							<p>to your
-								{{app.user.roles[0]}}
-								Account</p>
+							<p>{{app.user.roles[0]}}Account</p>
 						</div>
 					</div>
 				{% endif %}
@@ -118,9 +115,9 @@
 					</div>
 
 					<div class="card">
-						<i class="fa fa-calendar fa-2x text-red" aria-hidden="true"></i>
+						<i class="fa fa-home fa-2x text-red" aria-hidden="true"></i>
 						<div class="card_inner">
-							<p class="text-primary-p">Times of Watching</p>
+							<p class="text-primary-p">Available prop</p>
 							<span class="font-bold text-title">2467</span>
 						</div>
 					</div>
@@ -137,7 +134,7 @@
 					<div class="card">
 						<i class="fa fa-thumbs-up fa-2x text-green" aria-hidden="true"></i>
 						<div class="card_inner">
-							<p class="text-primary-p">Number of contracts</p>
+							<p class="text-primary-p">Contracts</p>
 							<span class="font-bold text-title">645</span>
 						</div>
 					</div>
@@ -152,7 +149,7 @@
 								<h1>Daily Reports</h1>
 								<p>Grenoble, Auvergne-Rhone-Alpe, France</p>
 							</div>
-							<i class="fa fa-usd" aria-hidden="true"></i>
+							<i class="fa fa-euro-sign" aria-hidden="true"></i>
 						</div>
 						<div id="apex1"></div>
 					</div>
@@ -163,7 +160,7 @@
 								<h1>Stats Reports</h1>
 								<p>Grenoble, Auvergne-Rhone-Alpe, France</p>
 							</div>
-							<i class="fa fa-usd" aria-hidden="true"></i>
+							<i class="fa fa-euro-sign" aria-hidden="true"></i>
 						</div>
 
 						<div class="charts__right__cards">
@@ -196,7 +193,10 @@
 		<div id="sidebar">
 			<div class="sidebar__title">
 				<div class="sidebar__img">
-					<img src="assets/logo.png" alt="logo"/>
+					<img
+					width="60" class="profileImage" src={{ asset('upload/images/logo.png') }} alt="logo">
+
+					{# <img src="assets/logo.png" alt="logo"/> #}
 					<h1>SerenityEstate Agency</h1>
 				</div>
 				<i onclick="closeSidebar()" class="fa fa-times" id="sidebarIcon" aria-hidden="true"></i>
@@ -214,11 +214,11 @@
 				</div>
 				<div class="sidebar__link">
 					<i class="fa fa-building-circle-check"></i>
-					<a href="#">Listing Property</a>
+					<a href="{{ path('app_property_list') }}">Listing Property</a>
 				</div>
 				<div class="sidebar__link">
 					<i class="fa fa-buysellads"></i>
-					<a href="#">Listing Ads</a>
+					<a href="{{ path('app_propertyAd_list') }}">Listing Ads</a>
 				</div>
 				<div class="sidebar__link">
 					<i class="fa fa-handshake-o"></i>
@@ -231,18 +231,18 @@
 				<h2>Settings</h2>
 				<div class="sidebar__link">
 					<i class="fa fa-user-pen"></i>
-					<a href="#">Edit Profil</a>
+					<a href="{{ path('app_edit_profile') }}">Edit Profil</a>
 				</div>
 				<div class="sidebar__logout">
 					<i class="fa fa-power-off"></i>
-					<a href="#">Log out</a>
+					<a href="{{ path('app_logout') }}">Log out</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	{# <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
-																																																																	    <script src="{{ asset ("assets/js/agencyManagementPannel.js")}}" defer></script> #}
+																																																																																																													    <script src="{{ asset ("assets/js/agencyManagementPannel.js")}}" defer></script> #}
 	{# </body>
-																																																																	  
-																																																																	</html> #}
+																																																																																																													  
+																																																																																																													</html> #}
 {% endblock %}

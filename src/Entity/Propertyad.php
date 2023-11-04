@@ -40,6 +40,7 @@ class Propertyad
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->isActive = true;
     }
 
     public function getId(): ?int

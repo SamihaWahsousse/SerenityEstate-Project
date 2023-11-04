@@ -31,8 +31,7 @@ class PropertyController extends AbstractController
          * This controller display all properties
          * 
          */
-
-        $properties = $paginator->paginate(
+            $properties = $paginator->paginate(
             $propertyRepository ->paginationQuery(),
             $request->query->get('page',1),
           5

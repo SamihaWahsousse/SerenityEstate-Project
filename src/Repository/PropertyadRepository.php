@@ -45,4 +45,17 @@ class PropertyadRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+//    /**
+//     * @return list of propertyAds that will be displayed in a pagination page
+//     */
+   public function paginationQuery()
+   {
+       return $this->createQueryBuilder('pa')
+           ->orderBy('pa.id', 'ASC')
+           ->getQuery();
+   }
+
+
 }
