@@ -33,10 +33,10 @@ class Propertyad
     // #[ORM\JoinColumn(nullable: false)]
     // private ?Property $property = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt;
 
-    #[ORM\OneToOne(mappedBy: 'ads', cascade: ['persist'])]
+    #[ORM\OneToOne(mappedBy: 'ad', cascade: ['persist'])]
     private ?Property $propertyRef = null;
 
     public function __construct()
@@ -46,6 +46,13 @@ class Propertyad
         $this->isActive = true;
     }
 
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue(): void
+     {
+            $this->updatedAt = new \DateTimeImmutable();
+            
+     }
+        
     public function getId(): ?int
     {
         return $this->id;
@@ -135,34 +142,28 @@ class Propertyad
         return $this;
     }
     
-#[ORM\PrePersist]
-  public function setUpdatedAtValue()
+
+    public function getPropertyRef(): ?Property
     {
-        $this->updatedAt = new \DateTimeImmutable();
-        
+        return $this->propertyRef;
     }
 
-public function getPropertyRef(): ?Property
-{
-    return $this->propertyRef;
-}
+    public function setPropertyRef(?Property $propertyRef): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($propertyRef === null && $this->propertyRef !== null) {
+            $this->propertyRef->setAd(null);
+        }
 
-public function setPropertyRef(?Property $propertyRef): static
-{
-    // unset the owning side of the relation if necessary
-    if ($propertyRef === null && $this->propertyRef !== null) {
-        $this->propertyRef->setAds(null);
+        // set the owning side of the relation if necessary
+        if ($propertyRef !== null && $propertyRef->getAd() !== $this) {
+            $propertyRef->setAd($this);
+        }
+
+        $this->propertyRef = $propertyRef;
+
+        return $this;
     }
-
-    // set the owning side of the relation if necessary
-    if ($propertyRef !== null && $propertyRef->getAds() !== $this) {
-        $propertyRef->setAds($this);
-    }
-
-    $this->propertyRef = $propertyRef;
-
-    return $this;
-}
 
     
 }

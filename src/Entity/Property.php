@@ -247,14 +247,14 @@ class Property
     }
 
 
-public function getAds(): ?Propertyad
+public function getAd(): ?Propertyad
 {
     return $this->ad;
 }
 
-public function setAds(?Propertyad $ads): static
+public function setAd(?Propertyad $ad): static
 {
-    $this->ad = $ads;
+    $this->ad = $ad;
 
     return $this;
 }

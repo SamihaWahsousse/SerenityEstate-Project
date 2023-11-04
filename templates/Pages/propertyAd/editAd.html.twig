@@ -1,26 +1,47 @@
-{% extends 'base.html.twig' %}
+<!-- Button Add Property Ads HTML -->
+<button type="button" class="btn btn-success text-nowrap" href="#editEmployeeModal" data-bs-toggle="modal" autocomplete="off" data-target="#editEmployeeModal">
+	<i class="fa fa-edit"></i>
+	<span>Edit Property Ad</span>
+</button>
 
 
-{% block stylesheets %}
-	{{parent ()}}
-	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
-{% endblock %}
+<!-- Add Property Ads Modal HTML -->
+<div id="editEmployeeModal" class="modal fade">
 
-{% block body %}
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
 
-	<div>
+			<div class="modal-header">
+				<h4 class="modal-title">Edit Property Ad</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+			</div>
 
-		{{form_start(form)}}
+			{{form_start(edit_form)}}
+			<div class="modal-body">
+				<div class="form-group"></div>
+				<div class="form-group">
+					{{ form_widget(edit_form.propertyRef, { "attr": { "hidden" : true }}) }}
+					{{ form_widget(edit_form.id, { "attr": { "hidden" : true }}) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(edit_form.title, { "label": "Title" }) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(edit_form.fees, { "label": "Fees(€)" }) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(edit_form.guarantee, { "label": "Guarantee(€)" }) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(edit_form.isActive, { "label": "is Active" }) }}
+				</div>
+			</div>
 
-		{# <div class="form-group mt-2">
-																												<label for="propertyType">Property Type</label> #}
-		{# {{form_widget(form.propertyType ,{'value': 37 })}} #}
-
-		{# </div> #}
-			<div class="form-group"> <label for="{{ form.propertyType.vars.id }}">Property Type</label>
-			{{ form_widget(form.propertyType) }}
+			<div class="modal-footer align-items-start">
+				<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				{{form_row(edit_form.Submit,{'attr':{'class':'btn btn-success'}})}}
+			</div>
+			{{form_end(edit_form)}}
 		</div>
-
 	</div>
-	{{form_end(form)}}
-{% endblock %}
+</div>

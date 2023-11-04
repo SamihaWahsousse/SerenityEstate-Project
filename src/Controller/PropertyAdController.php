@@ -7,6 +7,8 @@ use App\Entity\Propertyad;
 use App\Form\PropertyAdForm;
 use App\Repository\PropertyadRepository;
 use App\Repository\PropertyRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -73,31 +75,33 @@ class PropertyAdController extends AbstractController
             ]);
         }
 
-    // #[Route('/propertyAd/edit', name: 'edit_propertyAd', methods: ['GET', 'POST'])]
-
-    // public function editProperty(PropertyadRepository $propertyadRepository, int $id,Request $request,EntityManagerInterface $entityManager): Response
-    // {
-    //     $propertyAd = $propertyadRepository->findOneBy(['id' => $id]);
-    //     $form = $this->createForm(PropertyAdForm::class,$propertyAd, ['data' => $property]);
         
-    //     $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
 
-    //     $form->handleRequest($request); //handle the request 
-    //     // dd($form->getData());
+    #[Route('/propertyAd/edit/{id}', name: 'edit_propertyAd', methods: ['GET', 'POST'])]
+    public function editPropertyAd(PropertyadRepository $propertyadRepository,int $id,Request $request,EntityManagerInterface $entityManager,): Response
+    {
+        $propertyAd = $propertyadRepository->find(['id' => $id]);
+
+        $form = $this->createForm(PropertyAdForm::class, $propertyAd ,['action' => $this->generateUrl('edit_propertyAd', ['id' => $id])]);
         
-    //     if ($form->isSubmitted() && $form->isValid()) {  //get the submitted data-if the form is submitted, we add the property object in the DB and redirect to list properties page
-    //         $property = $form->getData();
+        $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
+
+        $form->handleRequest($request); //handle the request 
+        
+        if ($form->isSubmitted() && $form->isValid()) {  //get the submitted data-if the form is submitted, we add the propertyAd object in the DB and redirect to list properties page
+            $propertyAd = $form->getData();
+            $newupdatedAt= new DateTimeImmutable('now');//set new updatedAt date if the propertyAd is edited
+            $propertyAd->setUpdatedAt($newupdatedAt);
+            $entityManager ->persist($propertyAd);
+            $entityManager->flush();   
+
+            $this->addFlash('success', 'PropertyAd Updated!'); //display a success message
+            return $this->redirectToRoute('app_home');
+        }
             
-    //         $entityManager ->persist($property);
-    //         $entityManager->flush();   
-            
-    //         $this->addFlash('success', 'Property Updated!'); //display a success message
-    //         return $this->redirectToRoute('edit_propertyAd');
-    //     }
-            
-    //     return $this->render('pages/propertyAd/editAd.html.twig', [
-    //         'form'=>$form->createView(),
-    //     ]);
+        return $this->render('pages/propertyAd/editAd.html.twig', [
+            'edit_form'=>$form->createView(),
+        ]);
 
 
    
@@ -105,6 +109,7 @@ class PropertyAdController extends AbstractController
 
     
     }
+}
 
 
 

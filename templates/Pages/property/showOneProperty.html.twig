@@ -81,7 +81,6 @@
 								<label for="date">Updated At</label>
 								{{property.updatedAt ?
 								'<div class="form-control">{{property.updatedAt.format("d/m/Y")}}</div>' : '<div class="form-control">-</div>'}}
-
 							</div>
 						</div>
 
@@ -153,7 +152,8 @@
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
 
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
-					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads</button>
+					{# <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads</button> #}
+					{{ render(controller('App\\Controller\\PropertyAdController::editPropertyAd', {id: property.ad.id} )) }}
 					{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {IdProperty: property.id} )) }}
 
 				</div>

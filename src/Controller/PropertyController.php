@@ -14,6 +14,7 @@ use App\Form\PropertyType;
 use App\Repository\OperationRepository;
 use App\Repository\PropertyRepository;
 use App\Repository\PropertyTypeRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -115,17 +116,6 @@ class PropertyController extends AbstractController
     {
         $propertyRepository = $doctrine->getRepository(Property::class);
         $property = $propertyRepository->find($id);
-
-
-        // $propertyAd = new Propertyad();
-        // $form = $this->createForm(PropertyAdForm::class, $propertyAd);
-        // $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
-        // $form->remove("updatedAt"); 
-        // $form->handleRequest($request); //handle the request 
-        
-        // if ($form->isSubmitted() && $form->isValid()) { 
-        //     dd('test');
-        // }
         
         if (!$property) {
             $this->addFlash('error', 'The property : $id does not existe');
@@ -146,10 +136,12 @@ class PropertyController extends AbstractController
         $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
 
         $form->handleRequest($request); //handle the request 
-        // dd($form->getData());
         
         if ($form->isSubmitted() && $form->isValid()) {  //get the submitted data-if the form is submitted, we add the property object in the DB and redirect to list properties page
             $property = $form->getData();
+            
+            $newupdatedAt= new DateTimeImmutable('now');//set new updatedAt date if the propertyAd is edited
+            $property->setUpdatedAt($newupdatedAt);
             
             $entityManager ->persist($property);
             $entityManager->flush();   
