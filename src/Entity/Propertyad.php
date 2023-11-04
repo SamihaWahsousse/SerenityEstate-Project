@@ -29,12 +29,15 @@ class Propertyad
     #[ORM\Column(nullable: true)]
     private ?int $guarantee = null;
 
-    #[ORM\ManyToOne(inversedBy: 'propertyads')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Property $property = null;
+    // #[ORM\ManyToOne(inversedBy: 'propertyads')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?Property $property = null;
 
- #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\OneToOne(mappedBy: 'ads', cascade: ['persist'])]
+    private ?Property $propertyRef = null;
 
     public function __construct()
     {
@@ -108,17 +111,17 @@ class Propertyad
         return $this;
     }
 
-    public function getProperty(): ?Property
-    {
-        return $this->property;
-    }
+    // public function getProperty(): ?Property
+    // {
+    //     return $this->property;
+    // }
 
-    public function setProperty(?Property $property): static
-    {
-        $this->property = $property;
+    // public function setProperty(?Property $property): static
+    // {
+    //     $this->property = $property;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -138,5 +141,28 @@ class Propertyad
         $this->updatedAt = new \DateTimeImmutable();
         
     }
+
+public function getPropertyRef(): ?Property
+{
+    return $this->propertyRef;
+}
+
+public function setPropertyRef(?Property $propertyRef): static
+{
+    // unset the owning side of the relation if necessary
+    if ($propertyRef === null && $this->propertyRef !== null) {
+        $this->propertyRef->setAds(null);
+    }
+
+    // set the owning side of the relation if necessary
+    if ($propertyRef !== null && $propertyRef->getAds() !== $this) {
+        $propertyRef->setAds($this);
+    }
+
+    $this->propertyRef = $propertyRef;
+
+    return $this;
+}
+
     
 }

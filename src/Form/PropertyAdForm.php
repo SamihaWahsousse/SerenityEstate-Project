@@ -22,7 +22,7 @@ class PropertyAdForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('property')
+            ->add('propertyRef')
             ->add('title',TextareaType::class,[
                  'constraints' => [
                     new Assert\NotBlank()

@@ -49,24 +49,21 @@ class Property
     #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
     private ?User $owner = null;
 
-    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Propertyad::class)]
-    private Collection $propertyads;
-
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Contract::class)]
     private Collection $contracts;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $isPropertyAdCreated = null;
+    #[ORM\OneToOne(inversedBy: 'propertyRef', cascade: ['persist'])]
+    private ?Propertyad $ad = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
-        $this->propertyads = new ArrayCollection();
         $this->contracts = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -194,35 +191,6 @@ class Property
         return $this;
     }
 
-    /**
-     * @return Collection<int, Propertyad>
-     */
-    public function getPropertyads(): Collection
-    {
-        return $this->propertyads;
-    }
-
-    public function addPropertyad(Propertyad $propertyad): static
-    {
-        if (!$this->propertyads->contains($propertyad)) {
-            $this->propertyads->add($propertyad);
-            $propertyad->setProperty($this);
-        }
-
-        return $this;
-    }
-
-    public function removePropertyad(Propertyad $propertyad): static
-    {
-        if ($this->propertyads->removeElement($propertyad)) {
-            // set the owning side to null (unless already changed)
-            if ($propertyad->getProperty() === $this) {
-                $propertyad->setProperty(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Contract>
@@ -254,10 +222,9 @@ class Property
         return $this;
     }
 
- public function __toString()
-                      {
-                          return $this->getId() . ', ' . $this->getAddress();
-                      }
+ public function __toString(){
+     return $this->getId() . ', ' . $this->getAddress();
+    }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -279,14 +246,15 @@ class Property
         
     }
 
-public function isIsPropertyAdCreated(): ?bool
+
+public function getAds(): ?Propertyad
 {
-    return $this->isPropertyAdCreated;
+    return $this->ad;
 }
 
-public function setIsPropertyAdCreated(?bool $isPropertyAdCreated): static
+public function setAds(?Propertyad $ads): static
 {
-    $this->isPropertyAdCreated = $isPropertyAdCreated;
+    $this->ad = $ads;
 
     return $this;
 }

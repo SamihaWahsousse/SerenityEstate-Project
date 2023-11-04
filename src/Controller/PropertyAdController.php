@@ -43,10 +43,9 @@ class PropertyAdController extends AbstractController
         
         $propertyAd = new Propertyad();
         $propertyrelated = $propertyRepo->findOneBy(['id' => $IdProperty]);
-        // dd($propertyrelated);
         
         if($IdProperty) {
-            $propertyAd->setProperty($propertyRepo->findOneBy(['id' => $IdProperty]));
+            $propertyAd->setPropertyRef($propertyRepo->findOneBy(['id' => $IdProperty]));
         }
         $form = $this->createForm(PropertyAdForm::class, $propertyAd, ['action' => $this->generateUrl('add_propertyAd')]);
         $form->remove("createdAt"); //remove the createdAt from the form it will be generated automatically
@@ -54,18 +53,15 @@ class PropertyAdController extends AbstractController
         $form->handleRequest($request); //handle the request 
         
         if ($form->isSubmitted() && $form->isValid()) {
-            // dd($request->request);
+   
             $entityManager = $doctrine->getManager();
-            // $selectedProperty = $propertyRepo->findOneBy(  // Récupérer la propety sélectionnée depuis la BD
-            //     ['id' => $requestPropertyId]);
-            
             if ($propertyAd != null) {
                
-                $entityManager ->persist($propertyAd);
+                $entityManager->persist($propertyAd);
                 $entityManager->flush();
-                
+                 
                 $this->addFlash('success', 'Property Ads Created !');
-            return $this->redirectToRoute('app_property_list'); 
+                return $this->redirectToRoute('app_property_list'); 
                       
             } else {
              dd('test');
