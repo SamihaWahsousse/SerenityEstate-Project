@@ -19,9 +19,9 @@
 			{{form_start(form)}}
 			<div class="modal-body">
 				<div class="form-group"></div>
-
 				<div class="form-group">
 					{{ form_widget(form.propertyRef, { "attr": { "hidden" : true }}) }}
+					{# {{ form_widget(form.id, { "attr": { "hidden" : true }}) }} #}
 				</div>
 				<div class="form-group">
 					{{ form_row(form.title, { "label": "Title" }) }}

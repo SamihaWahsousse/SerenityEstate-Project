@@ -153,7 +153,11 @@
 
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
 					{# <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads</button> #}
-					{{ render(controller('App\\Controller\\PropertyAdController::editPropertyAd', {id: property.ad.id} )) }}
+
+					{% if (property.ad != null)  %}
+						{{ render(controller('App\\Controller\\PropertyAdController::editPropertyAd', {id: property.ad.id} )) }}
+					{% endif %}
+
 					{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {IdProperty: property.id} )) }}
 
 				</div>

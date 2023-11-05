@@ -27,14 +27,14 @@ class PropertyAdController extends AbstractController
          * 
          */
 
-            $propertyAd = $paginator->paginate(
+            $propertyAds = $paginator->paginate(
             $propertyadRepository ->paginationQuery(),
             $request->query->get('page',1),
           5
         );
-        // dd($propertyAd);
+        // dd($propertyAds);
         return $this->render('pages/propertyAd/listPropertyAd.html.twig', [
-            'propertyAd'=>$propertyAd
+            'propertyAds'=>$propertyAds
         ]);
     }
 
@@ -78,7 +78,7 @@ class PropertyAdController extends AbstractController
         
 
     #[Route('/propertyAd/edit/{id}', name: 'edit_propertyAd', methods: ['GET', 'POST'])]
-    public function editPropertyAd(PropertyadRepository $propertyadRepository,int $id,Request $request,EntityManagerInterface $entityManager,): Response
+    public function editPropertyAd(PropertyadRepository $propertyadRepository,int $id,Request $request,EntityManagerInterface $entityManager): Response
     {
         $propertyAd = $propertyadRepository->find(['id' => $id]);
 
@@ -90,25 +90,42 @@ class PropertyAdController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {  //get the submitted data-if the form is submitted, we add the propertyAd object in the DB and redirect to list properties page
             $propertyAd = $form->getData();
+            
             $newupdatedAt= new DateTimeImmutable('now');//set new updatedAt date if the propertyAd is edited
             $propertyAd->setUpdatedAt($newupdatedAt);
             $entityManager ->persist($propertyAd);
             $entityManager->flush();   
 
-            $this->addFlash('success', 'PropertyAd Updated!'); //display a success message
+            $this->addFlash('success', 'PropertyAd Updated !'); //display a success message
             return $this->redirectToRoute('app_home');
         }
             
         return $this->render('pages/propertyAd/editAd.html.twig', [
             'edit_form'=>$form->createView(),
-        ]);
+        ]);    
+    }
 
-
+    #[Route('/propertyAd/delete/{id}', name: 'delete_propertyAd', methods: ['GET'])]
+    public function deletePropertyAd(EntityManagerInterface $entityManager,Propertyad $propertyAd): Response 
+    {
    
+        $entityManager->remove($propertyAd);//delete the property Ad 
+        
+        $propertyAd->setPropertyRef(null);//set the property ad_id column to null in the property table to make the related propertyAd as Orphan object that will be removed 
+        $entityManager->flush();
+
+        $this->addFlash('success','PropertyAd deleted successfully !');
+        
+        return $this->redirectToRoute('app_propertyAd_list');
+
+    }
+
+
+
+
 
 
     
-    }
 }
 
 

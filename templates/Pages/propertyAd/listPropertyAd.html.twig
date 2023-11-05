@@ -2,10 +2,18 @@
 
 
 {% block body %}
-	{% for propAd in propertyAd %}
-		<div>{{propAd.id}}</div>
-		<div>{{propAd.property}}</div>
-		<div>{{propAd.title}}</div>
-		<div>{{propAd.isActive}}</div>
+	{% for propertyAd in propertyAds %}
+		<div>{{propertyAd.id}}</div>
+		<div>{{propertyAd.propertyRef}}</div>
+		<div>{{propertyAd.title}}</div>
+		<div>{{propertyAd.isActive}}</div>
+		<div>{{propertyAd.fees}}</div>
+		<div>{{propertyAd.guarantee}}</div>
+
+
+		<a href="{{path('delete_propertyAd',{id : propertyAd.id})}}" class="btn btn-warning">Remove propertyAd</a>
+
 	{% endfor %}
+
+
 {% endblock %}

@@ -38,6 +38,8 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							{{form_row(form.rooms ,{'label':'Number of rooms', 'attr':{'placeholder':'Select room numbers'},'required':true })}}
+							{{form_errors(form.rooms)}}
+
 						</div>
 					</div>
 

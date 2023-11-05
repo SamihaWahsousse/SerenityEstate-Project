@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PropertyadRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
+
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PropertyadRepository::class)]
 class Propertyad
@@ -12,6 +14,7 @@ class Propertyad
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+ 
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -29,14 +32,10 @@ class Propertyad
     #[ORM\Column(nullable: true)]
     private ?int $guarantee = null;
 
-    // #[ORM\ManyToOne(inversedBy: 'propertyads')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?Property $property = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt;
 
-    #[ORM\OneToOne(mappedBy: 'ad', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity:Property::class,mappedBy: 'ad', cascade: ['persist'])]
     private ?Property $propertyRef = null;
 
     public function __construct()

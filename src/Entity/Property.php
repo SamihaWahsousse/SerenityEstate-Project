@@ -54,8 +54,9 @@ class Property
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
-
-    #[ORM\OneToOne(inversedBy: 'propertyRef', cascade: ['persist'])]
+    
+    // #[ORM\Column(nullable: true)]
+    #[ORM\OneToOne(targetEntity:Propertyad::class,inversedBy: 'propertyRef', orphanRemoval:true)]
     private ?Propertyad $ad = null;
 
     public function __construct()
