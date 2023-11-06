@@ -50,3 +50,7 @@
 	border-radius: 0.375rem !important;
 	width: 100% !important;
 }
+
+.autocomplete-container {
+	position: relative;
+}
