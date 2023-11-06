@@ -13,7 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 
-#[UniqueEntity('email')]
+// #[UniqueEntity('email')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email address')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 
@@ -25,9 +26,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'The email could not be empty')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'userName could not be empty')]
     private ?string $fullName = null;
 
     private ?string $plainPassword = null;
@@ -37,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
 
     #[ORM\Column(type: 'string', nullable: true)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Password could not be empty')]
     private ?string $password = 'password';
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -188,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
+        //clear the stored temporary user plainPassword  
         $this->plainPassword = null;
     }
 
@@ -309,7 +312,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeContractsClient(Contract $contractsClient): static
     {
         if ($this->contractsClient->removeElement($contractsClient)) {
-            // set the owning side to null (unless already changed)
             if ($contractsClient->getClient() === $this) {
                 $contractsClient->setClient(null);
             }
@@ -321,7 +323,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        // Return a string representation of the user, e.g., username or name
-        return $this->getEmail(); // Replace with the appropriate property
+        return $this->getEmail(); // Return a string representation of the user -email-
     }
 }

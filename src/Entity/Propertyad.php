@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PropertyadRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\HasLifecycleCallbacks]
@@ -14,22 +14,25 @@ class Propertyad
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
- 
-    private ?int $id = null;
+     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    #[ORM\Column( length: 255)]
+    #[Assert\NotBlank]
+    private string $title;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $fees = null;
-
-    #[ORM\Column]
-    private ?bool $isActive = null;
+    #[ORM\Column(type:'datetime_immutable')]
+    #[Assert\NotBlank]
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
+    private ?int $fees;
+
+    #[ORM\Column]
+    private ?bool $isActive;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
     private ?int $guarantee = null;
 
     #[ORM\Column]

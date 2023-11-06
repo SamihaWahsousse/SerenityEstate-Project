@@ -6,8 +6,10 @@ use App\Repository\PropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\HasLifecycleCallbacks]
+
+#[ORM\HasLifecycleCallbacks] 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
@@ -17,26 +19,36 @@ class Property
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[Assert\Length(min: 2, max:255)]
+    #[Assert\NotBlank]
+    private string $description ;
 
     #[ORM\Column]
-    private ?bool $isAvailable = null;
+    private ?bool $isAvailable= null;
 
     #[ORM\Column]
-    private ?int $rooms = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $area = null;
+    #[Assert\Positive]
+    #[Assert\NotBlank]
+    private int $rooms;
 
     #[ORM\Column]
-    private ?int $price = null;
+    #[Assert\Positive]
+    #[Assert\NotBlank]
+    private int $area ;
 
-    #[ORM\Column(nullable: false, type: "datetime_immutable", options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeImmutable $createdAt;
+    #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\NotBlank]
+    private int $price;
+
+    #[ORM\Column(type: "datetime_immutable", options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Assert\NotNull]
+    private \DateTimeImmutable $createdAt;
 
 
     #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Address $address = null;
 
     #[ORM\ManyToOne(inversedBy: 'properties', cascade: ["persist", "remove"])]
@@ -55,7 +67,6 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
     
-    // #[ORM\Column(nullable: true)]
     #[ORM\OneToOne(targetEntity:Propertyad::class,inversedBy: 'propertyRef', orphanRemoval:true)]
     private ?Propertyad $ad = null;
 
@@ -108,12 +119,12 @@ class Property
         return $this;
     }
 
-    public function getArea(): ?string
+    public function getArea(): ?int
     {
         return $this->area;
     }
 
-    public function setArea(string $area): static
+    public function setArea(int $area): static
     {
         $this->area = $area;
 
