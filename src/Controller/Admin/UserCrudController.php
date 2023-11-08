@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\ResetPasswordController;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +44,6 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-
             ->setEntityLabelInPlural('Users')
             ->setEntityLabelInSingular('User')
             ->setPageTitle("index", "SerenityEstate - Users administration")
@@ -55,14 +55,14 @@ class UserCrudController extends AbstractCrudController
     //add Menus-Optional
     public function configureActions(Actions $actions): Actions
     {
-        $sendResetPasswordLink = Action::new('sendPasswordLink')
-            ->linkToCrudAction('sendResetPasswordLink');
+        $sendEmailFirstAccess = Action::new('sendEmailFirstAccess')
+            ->linkToCrudAction('sendEmailFirstAccess');
 
         return $actions
             ->add(Crud::PAGE_EDIT, Action::INDEX)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->add(Crud::PAGE_EDIT, Action::DETAIL)
-            ->add(Crud::PAGE_INDEX, $sendResetPasswordLink);
+            ->add(Crud::PAGE_INDEX, $sendEmailFirstAccess);
     }
 
 
@@ -106,67 +106,39 @@ class UserCrudController extends AbstractCrudController
     }
 
     //function that retreive the id of the selected user and his email to send a reset email 
-    public function sendResetPasswordLink(AdminContext $context, EntityManagerInterface $entityManager, ResetPasswordHelperInterface $resetPasswordHelper, AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer, RouterInterface $router, string $token = null)
+    public function sendEmailFirstAccess(AdminContext $context, ResetPasswordController $resetPassword,AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer, RouterInterface $router, string $token = null)
     {
         $userObject = $context->getEntity()->getInstance();
         $useremail = $userObject->getEmail();
-
+        $phoneNumber = $userObject->getphoneNumber();
+        $userFullName = $userObject->getFullName();
+        
         if ($token) {
             $this->storeTokenInSession($token);
         }
+        
         $token = $this->getTokenFromSession();
         if (null === $token) {
             throw $this->createNotFoundException('No reset password token found in the URL or in the session.');
         }
+  
+        $resetUrl = $router->generate('app_reset_password', ['token' => $token], RouterInterface::ABSOLUTE_URL);
 
-        // var_dump($userObject);
-        // var_dump($userEmail);
-
-        // $userRepository = $entityManager->getRepository(User::class);
-
-        // $resetToken = $this->getTokenFromSession();
-
-
-        try {
-            // Generate a unique reset token for the user
-            $userObject->$resetPasswordHelper->validateTokenAndFetchUser($token);
-        } catch (ResetPasswordExceptionInterface $e) {
-            // If you want to tell the user why a reset email was not sent, uncomment
-            // the lines below and change the redirect to 'app_forgot_password_request'.
-            // Caution: This may reveal if a user is registered or not.
-            //
-            // $this->addFlash('reset_password_error', sprintf(
-            //     '%s - %s',
-            //     $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_HANDLE, [], 'ResetPasswordBundle'),
-            //     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
-            // ));
-            return $this->redirectToRoute('app_forgot_password_request');
-        }
-
-        try {
-            $resetToken = $this->$resetPasswordHelper->generateResetToken($userObject);
-        } catch (ResetPasswordExceptionInterface $e) {
-        }
-        // Generate a reset link
-        $resetUrl = $router->generate('app_reset_password', ['token' => $resetToken], RouterInterface::ABSOLUTE_URL);
-
-        // Send the email to the user with the reset URL.
-        //send email to selected user 
-        $email = (new TemplatedEmail())
+        
+        $email = (new TemplatedEmail())   //send email to selected user 
             ->from('no-reply@serenity-estate.com')
             ->to($useremail)
-            ->subject('Password Reset Request - SerenityEstate Application ')
-            ->htmlTemplate('reset_password/testResetPassword.html.twig')
+            ->subject('First Access - SerenityEstate Application ')
+            ->htmlTemplate('mailer/mailFirstUserAccess.html.twig')
             ->context([
-                'user' => $useremail, // Pass the user to the email template
-                'resetUrl' => $resetUrl, // Pass the reset URL to the email template
+                'userEmail' => $useremail,
+                'userFullName' =>$userFullName, // Pass the user to the email template
+                'phoneNumber'=>$phoneNumber,
+                 'resetUrl' => $resetUrl, // Pass the first access URL to the email template
 
             ]);
-        // ->text('Your password reset request!');
-        // ->html('<p>See Twig integration for better HTML integration!</p>');
-        $mailer->send($email);
-
-
+            
+        $mailer->send($email);// Send the email to the user with the reset URL.
 
         //redirect to index USER CRUD 
         $targetUrl = $adminUrlGenerator
@@ -177,24 +149,6 @@ class UserCrudController extends AbstractCrudController
 
 
 
-        // $user = $userRepository->find($id);
-
-        // $clone = clone $user;
-
-        // // custom logic 
-        // $clone->setEnabled(false);
-        // // ...
-        // $now = new DateTime();
-        // $clone->setCreatedAt($now);
-        // $clone->setUpdatedAt($now);
-
-        // $this->persistEntity($this->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn()), $clone);
-        // $this->addFlash('success', 'Product duplicated');
-
-        // return $this->redirect($this->get(CrudUrlGenerator::class)->build()->setAction(Action::INDEX)->generateUrl());
     }
-    //function to generate the reset password link 
-    private function generatePasswordLink()
-    {
-    }
+
 }
