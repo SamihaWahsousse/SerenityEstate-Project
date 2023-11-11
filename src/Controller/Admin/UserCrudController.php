@@ -35,6 +35,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 class UserCrudController extends AbstractCrudController
 {
     use ResetPasswordControllerTrait;
+
     //   add Constructor for passwordHacher
     public static function getEntityFqcn(): string
     {
@@ -81,7 +82,7 @@ class UserCrudController extends AbstractCrudController
                 ->setFormTypeOptions([
                     'type' => PasswordType::class,
                     'first_options' => ['hash_property_path' => 'password', 'label' => 'New password'],
-                    'second_options' => ['label' => 'Repeat   password'],
+                    'second_options' => ['label' => 'Repeat password'],
                     'mapped' => false,
                     'invalid_message' => 'The password fields do not match.',
                     'attr' => ['autocomplete' => 'new-password'],
@@ -106,24 +107,16 @@ class UserCrudController extends AbstractCrudController
     }
 
     //function that retreive the id of the selected user and his email to send a reset email 
-    public function sendEmailFirstAccess(AdminContext $context, ResetPasswordController $resetPassword,AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer, RouterInterface $router, string $token = null)
+    public function sendEmailFirstAccess(AdminContext $context, ResetPasswordController $resetPassword,AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer, RouterInterface $router, ResetPasswordHelperInterface $resetPasswordHelper)
     {
         $userObject = $context->getEntity()->getInstance();
         $useremail = $userObject->getEmail();
         $phoneNumber = $userObject->getphoneNumber();
         $userFullName = $userObject->getFullName();
-        
-        if ($token) {
-            $this->storeTokenInSession($token);
-        }
-        
-        $token = $this->getTokenFromSession();
-        if (null === $token) {
-            throw $this->createNotFoundException('No reset password token found in the URL or in the session.');
-        }
   
-        $resetUrl = $router->generate('app_reset_password', ['token' => $token], RouterInterface::ABSOLUTE_URL);
-
+        $resetToken = $resetPasswordHelper->generateResetToken($userObject);
+        //dd($resetToken);
+        $resetUrl = $router->generate('app_reset_password', ['token' => $resetToken->getToken()], RouterInterface::ABSOLUTE_URL);
         
         $email = (new TemplatedEmail())   //send email to selected user 
             ->from('no-reply@serenity-estate.com')
@@ -146,9 +139,6 @@ class UserCrudController extends AbstractCrudController
             ->setAction(Crud::PAGE_INDEX)
             ->generateUrl();
         return $this->redirect($targetUrl);
-
-
-
     }
 
 }
