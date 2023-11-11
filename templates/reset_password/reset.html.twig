@@ -1,12 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
-
-{% block body %}
-    <h1>Reset your password</h1>
-
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+{% block title %}{% endblock %}
+{% block stylesheets %}
+	{{ parent ()}}
+	<link rel="stylesheet" href="{{ asset("assets/css/loginPage.css")}}"/>
 {% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset ("assets/js/resetPasswordRegex.js")}}" defer></script>
+{% endblock %}
+{% block body %}
+
+	<!--Reset password form -->
+
+	<div class="login-container">
+		<div class="login-form ">
+			{{ form_start(resetForm) }}
+			<div class="login-form-inner">
+				<div class="logo">
+					<svg height="512" viewbox="0 0 192 192" width="512" xmlns="http://www.w3.org/2000/svg">
+						<path d="m155.109 74.028a4 4 0 0 0 -3.48-2.028h-52.4l8.785-67.123a4.023 4.023 0 0 0 -7.373-2.614l-63.724 111.642a4 4 0 0 0 3.407 6.095h51.617l-6.962 67.224a4.024 4.024 0 0 0 7.411 2.461l62.671-111.63a4 4 0 0 0 .048-4.027z"/>
+					</svg>
+				</div>
+				<h2>Reset Password</h2>
+
+				<div class="body-text">
+					{{ form_errors(resetForm) }}
+				</div>
+
+				<div class="sign-in-seperator">
+					<span>Please, Make sure to enter a valid password</span>
+				</div>
+
+				<div class="login-form-group">
+					{{form_widget(resetForm.plainPassword ,{'attr': {'placeholder':'New password'}})}}
+				</div>
+			</div>
+			<div class="body-text">
+				<h5>Password must contain:</h5>
+				<div class="containerErrorsJs" id="containerErrorsPassword">
+					<ul class="listeOfErrors">
+						<li id="lowerCase">One lowercase character</li>
+						<li id="upperCase">One uppercase character</li>
+						<li id="specialCharacter">One special character</li>
+						<li id="numbers">One number</li>
+						<li id="minimumCharacters">8 characters minimum</li>
+					</ul>
+				</div>
+			</div>
+			<button class="rounded-button login-cta ">Reset Password</button>
+			{{ form_end(resetForm) }}
+			<div class="register-div">
+				<a href="{{ path('app_home') }}" class="link create-account" -link>Back To HOME Page</a>
+			</div>
+		</div>
+
+
+	</div>
+
+</div>{% endblock %}
