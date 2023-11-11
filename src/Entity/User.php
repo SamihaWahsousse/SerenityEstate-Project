@@ -32,7 +32,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'userName could not be empty')]
     private ?string $fullName = null;
-
+    
+  
     private ?string $plainPassword = null;
 
     /**
@@ -41,11 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable: true)]
     #[Assert\NotBlank(message: 'Password could not be empty')]
-    #[Assert\Regex(
-        pattern: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/",
-        match: true,
-        message: 'Password does not meet the policy requirements.',
-    )]
+   
     private ?string $password = 'password';
 
     #[ORM\Column(length: 255, nullable: true)]
