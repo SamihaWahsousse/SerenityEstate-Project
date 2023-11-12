@@ -2,12 +2,19 @@
 
 {% block stylesheets %}
 	{{parent ()}}
-	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
+	<link
+	rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
+{# <link rel="stylesheet" type="text/css" href="https://unpkg.com/@geoapify/geocoder-autocomplete@^1/styles/minimal.css">
+	<link rel="stylesheet" href="{{ asset("assets/css/geoapify.css")}}"/> #}
+
 {% endblock %}
 
 {# {% block javascripts %}
 	{{parent ()}}
-	<script src="{{ asset("assets/js/goeapify.js")}}" defer></script>
+	<script src="{{ asset ("assets/js/goeapify.js")}}" defer></script>
+	<script src="https://unpkg.com/@geoapify/geocoder-autocomplete@^1/dist/index.min.js" defer></script>
+
+
 {% endblock %} #}
 
 {% block body %}
@@ -138,7 +145,7 @@
 				<div class="col-md-2 ">
 					{{form_row(form.Submit)}}
 				</div>
-				<div class="col-md-1">
+				<div class="col-md-2">
 					{{form_row(form.Reset)}}
 				</div>
 				{{form_end(form)}}

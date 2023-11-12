@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
 {% block stylesheets %}
 	{{parent ()}}
 	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
@@ -10,6 +9,7 @@
 	{{parent ()}}
 	<script src="{{ asset("assets/js/showPropertyModal.js")}}" defer></script>
 {% endblock %}
+
 
 {% block body %}
 	<div
@@ -25,7 +25,7 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="propertyType">Property Type</label>
-							<div class="form-control">{{property.propertyType}}</div>
+							<div class="form-control disabled">{{property.propertyType}}</div>
 						</div>
 					</div>
 
@@ -71,7 +71,7 @@
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="date">Created At</label>
-								<div class="form-control">{{property.createdAt.format('d/m/Y')}}
+								<div class="form-control">{{property.createdAt.format('d/m/Y H:i')}}
 								</div>
 							</div>
 						</div>
@@ -79,8 +79,7 @@
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="date">Updated At</label>
-								{{property.updatedAt ?
-								'<div class="form-control">{{property.updatedAt.format("d/m/Y")}}</div>' : '<div class="form-control">-</div>'}}
+								<div class="form-control">{{property.updatedAt.format("d/m/Y H:i") }}</div>
 							</div>
 						</div>
 
@@ -146,13 +145,12 @@
 					</div>
 				</section>
 
-				<!-- Buttons -->
+				<!-- Buttons for managing property Ads and Property pictures -->
 				<div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-center no-wrap">
 
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
 
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
-					{# <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property Ads</button> #}
 
 					{% if (property.ad != null)  %}
 						{{ render(controller('App\\Controller\\PropertyAdController::editPropertyAd', {id: property.ad.id} )) }}
