@@ -40,8 +40,6 @@ class PropertyType extends AbstractType
                 ],
                 'expanded' => true, // Set to true to use radio buttons
                 'label'=>'Availability',
-                // 'data'=>$options['data']->isAvailable()
-                // 'data'=>'Yes'
                 'data'=>$options['data']->isAvailable() ? $options['data']->isAvailable() : 1
             ])
             ->add('rooms',NumberType::class,[
@@ -67,7 +65,9 @@ class PropertyType extends AbstractType
             ->add('createdAt', DateType::class, [
                 'required' => false,
             ])
-            ->add('address', AddressType::class)
+            ->add('address', AddressType::class, [
+                'required' => true,
+            ])
             
             ->add('propertyType', PropertyTypeFormType::class, [
                  'label' => 'Maison',
@@ -85,14 +85,19 @@ class PropertyType extends AbstractType
                 'data'=>$options['data']->getOwner()
              ])
             ->add('Submit', SubmitType::class,[
-           'label' => 'Create',
+           'label' => 'Save',
             'attr'=>[
-                'class'=>'btn-success',
+                'class'=>'btn-success w-75',
             ]
             ])
-            ->add('Reset', ResetType::class);
+            ->add('Reset', ResetType::class,[
+           'label' => 'Clear',
+            'attr'=>[
+                'class'=>'btn-secondary btn w-75',
+            ]
+            ]);
     }
-
+    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
