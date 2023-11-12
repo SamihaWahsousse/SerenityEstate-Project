@@ -1,22 +1,33 @@
-<div class="m-4">
+<!--with hero image-->
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container">
-			<a href="#" class="navbar-brand">Brand</a>
-			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarCollapse">
-				<div class="navbar-nav">
-					<a href="#" class="nav-item nav-link active">Home</a>
-					<a href="#" class="nav-item nav-link">About Us</a>
-					<a href="#" class="nav-item nav-link">Property</a>
-					<a href="#" class="nav-item nav-link">Contact Us</a>
-
-				</div>
-				<div class="navbar-nav ms-auto">
-					<a href="#" class="nav-item nav-link">Login</a>
-				</div>
-			</div>
+<nav class="navbar navbar-expand-lg fixed-top">
+	<div class="container-fluid">
+		<a class="navbar-brand fw-bold" href="#">
+			<img src={{ asset('upload/images/SerenityEstateLogo.png') }} alt="logo" width="80" height="60">
+			Serenity Estate
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end me-5" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active">
+					<a class="nav-link activeLink" href="{{ path('app_home') }}">Home<span class="sr-only">(current)</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">About Us</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Property Listing</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="btn btn-success btn-md" href="{{ path('app_login') }}" role="button">Login</a>
+				</li>
+			</ul>
 		</div>
-	</nav>
+	</div>
+</nav>
