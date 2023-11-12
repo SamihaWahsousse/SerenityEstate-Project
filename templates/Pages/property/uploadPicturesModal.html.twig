@@ -1,0 +1,40 @@
+{# {% extends 'base.html.twig' %} #}
+{% block body %}
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="uploadPicModal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-xl">
+			<div class="modal-content">
+				<div
+					class="modal-header">
+					<!-- title -->
+					<h5 class="modal-title " id="uploadPicModal">Upload new pictures for the property</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div
+					class="modal-body">
+					<!-- uploader section -->
+					<div id="uploader-section" class="uploader">
+						<input id="file-upload" type="file" name="fileUpload" accept="image/*" multiple>
+						<label for="file-upload" id="file-drag">
+							<div id="messages" class="hidden"></div>
+							<div id="start">
+								<i class="fa fa-download" aria-hidden="true"></i>
+								<div>Click to select new pictures or drag here</div>
+							</div>
+						</label>
+					</div>
+
+					<!-- preview section  -->
+					<div id="preview-section" class="hidden">
+						<div id="preview-images"></div>
+					</div>
+				</div>
+				<div class="modal-footer" id="upload-section">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="upload-button" type="button" class="btn btn-success disabled" onclick="uploadAll()">upload</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

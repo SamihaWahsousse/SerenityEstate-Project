@@ -21,11 +21,11 @@ class CityRegionFixtures extends Fixture implements FixtureGroupInterface
         $cityRegion2 = new CityRegion();
 
         $cityRegion1->setCity("Grenoble");
-        $cityRegion1->setRegion("Auvergne-Rhone-Alpe");
+        $cityRegion1->setRegion("Auvergne-Rhone-Alpes");
         $entityManager->persist($cityRegion1);
 
         $cityRegion2->setCity("Lyon");
-        $cityRegion2->setRegion("Auvergne-Rhone-Alpe");
+        $cityRegion2->setRegion("Auvergne-Rhone-Alpes");
         $entityManager->persist($cityRegion2);
 
 

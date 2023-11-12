@@ -150,7 +150,11 @@
 
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
 
-					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button>
+					{# <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Manage Pictures</button> #}
+					<!-- Button to trigger the modal -->
+					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="modal" data-bs-target="#exampleModal" autocomplete="off" onclick="Init()">
+						Manage Pictures
+					</button>
 
 					{% if (property.ad != null)  %}
 						{{ render(controller('App\\Controller\\PropertyAdController::editPropertyAd', {id: property.ad.id} )) }}
@@ -162,5 +166,6 @@
 			</div>
 		</div>
 	</div>
+	{% include 'Pages/property/uploadPicturesModal.html.twig' %}
 
 {% endblock %}

@@ -20,8 +20,19 @@
 {% block body %}
 
 	<!--heading-->
-	<div
-		class="bodyContainer">
+	<div class="bodyContainer">
+		<div class="flash-messages">
+			{% set flashbag_notices = app.session.flashBag('info') %}
+			{% for messages in app.session.flashBag.all()%}
+				{% for message in messages %}
+					<div class="alert alert-info" role="alert">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
+
+
 		<!--form-->
 		{{form_start(form)}}
 		<div class="container" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
