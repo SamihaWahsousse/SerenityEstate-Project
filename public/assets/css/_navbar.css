@@ -1,0 +1,77 @@
+.navbar {
+	background-color: rgba(0, 0, 0, 0.5); /* Color with opacity */
+}
+
+.navbar-nav li .nav-link {
+	font-size: large;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li .nav-link:hover {
+	background: #146c43;
+	border-radius: 0.5px;
+	color: white;
+	font-size: 1.25rem;
+}
+
+.nav-link {
+	color: white;
+}
+
+.navbar-brand {
+	color: white;
+}
+
+.activeLink {
+	color: white;
+	border-bottom: 5px solid #146c43;
+}
+
+.btn-success {
+	font-size: 1.25rem;
+}
+
+/* hero image */
+.hero-image {
+	background-image: url("../../upload/images/heroBg.png"); /* Replace 'your-hero-image.jpg' with your actual image path */
+	background-size: cover;
+	background-position: center;
+	height: 500px; /* Adjust the height as needed */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: black; /* Text color on top of the hero image */
+	border-radius: 0rem 0rem 9.375rem 0rem;
+	background: linear-gradient(
+			0deg,
+			rgba(28, 33, 43, 0.05) 0%,
+			rgba(28, 33, 43, 0.05) 100%
+		),
+		url("../../upload/images/heroBg.png"),
+		lightgray -0.21px -88px / 100.23% 124.026% no-repeat;
+}
+
+.hero-title {
+	color: white;
+	/* font-size: 2rem; */
+	font-weight: 500;
+	font-size: 3rem;
+	text-transform: uppercase;
+}
+
+.hero-text {
+	background: rgba(255, 255, 255, 0.94);
+	color: #146c43;
+	font-weight: 500;
+	font-size: 1rem;
+	letter-spacing: 0.18663rem;
+	text-align: center;
+}
+
+.hero-container {
+	background: radial-gradient(
+		50% 50% at 50% 50%,
+		#c6d3d6 0%,
+		rgba(248, 239, 226, 0) 100%
+	);
+}
