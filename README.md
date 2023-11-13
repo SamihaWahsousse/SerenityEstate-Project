@@ -18,6 +18,6 @@ Application web pour la gestion d'une agence immobilière
 3. Créer la base de données : `bin/console doctrine:database:create`
 4. Lancer la base de données : `bin/console doctrine:schema:update –force`
 5. Lancer les fixtures : `bin/console doctrine:fixture:load`
-6. Lancez le serveur interne : `symfony serve`
+6. Lancez le serveur interne : `symfony serve:start`
 
 L'application est prête à être utilisée!
