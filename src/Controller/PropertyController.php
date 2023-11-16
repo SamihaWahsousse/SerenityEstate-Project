@@ -92,6 +92,7 @@ class PropertyController extends AbstractController
                             return $this->redirectToRoute('app_property_list');
                             
                         } else {
+                        
                             $this->addFlash('info', 'Operation does not exist !'); //display info message
                         }
                         
@@ -104,17 +105,16 @@ class PropertyController extends AbstractController
                 }
                
             } else {
-                
-                             $this->addFlash('failed',"Your Address field is empty ! ");//Display error cityRegion does not exist, Contact Administrator
+                             $this->addFlash('failed',"Your Address field is empty ! "); //Display error cityRegion does not exist, Contact Administrator
             }
 
-        } else {  //else we display the form
+        } // else {  //else we display the form
         //afficher un message que le form n'est pas valide 
         
             return $this->render('pages/property/add.html.twig', [
                 'form' => $form->createView(),
             ]);
-        }
+        //}
     }
 
     //show one property 

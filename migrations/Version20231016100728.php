@@ -20,8 +20,8 @@ final class Version20231016100728 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE roles');
-        $this->addSql('ALTER TABLE user DROP role_id');
+        //$this->addSql('DROP TABLE roles');
+        // $this->addSql('ALTER TABLE user DROP role_id');
     }
 
     public function down(Schema $schema): void

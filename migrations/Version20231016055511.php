@@ -20,12 +20,12 @@ final class Version20231016055511 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_B63E2EC75E237E06 ON roles (name)');
+       // $this->addSql('CREATE UNIQUE INDEX UNIQ_B63E2EC75E237E06 ON roles (name)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_B63E2EC75E237E06 ON roles');
+        // $this->addSql('DROP INDEX UNIQ_B63E2EC75E237E06 ON roles');
     }
 }
