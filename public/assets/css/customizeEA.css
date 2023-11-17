@@ -1,0 +1,54 @@
+.sidebar {
+	background-color: #031e3b;
+}
+
+#main-menu .menu .menu-item-contents {
+	color: white;
+}
+
+#main-menu .menu .menu-item.active {
+	background: rgba(62, 161, 117, 0.3);
+}
+
+#main-menu .menu .menu-item.active:not(.expanded) .menu-icon,
+#main-menu .menu .menu-item.active:not(.expanded) a {
+	color: #3ea175;
+}
+
+.btn-primary,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
+		.btn-danger
+	):active,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
+		.btn-danger
+	):active:focus,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
+		.btn-danger
+	):focus,
+.btn-primary:not(:disabled):not(.disabled):not(.btn-link):not(
+		.btn-danger
+	):hover {
+	background-color: #008552;
+	color: white;
+}
+
+.ea-dark-scheme .form-switch .form-check-input:checked,
+.form-switch .form-check-input:checked {
+	background-color: #031e3b;
+	border-color: #031e3b;
+}
+
+.page-item.active .page-link,
+.page-item.active .page-link:hover {
+	background: #008552;
+	border-color: #008552;
+	color: white;
+}
+
+.content-header-title .title {
+	font-size: var(--font-size-xxl);
+	font-weight: 700;
+	line-height: 1.2;
+	margin: 0;
+	padding-right: 15px;
+}
