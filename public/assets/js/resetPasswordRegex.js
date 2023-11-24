@@ -11,8 +11,6 @@ const inputResetPassword = resetNewPasswordField.addEventListener(
 	}
 );
 
-// const displayErrors = function (inputPasswordField) {};
-
 // Function validation password
 const validResetPassword = function (inputResetPassword) {
 	console.log(inputResetPassword);
