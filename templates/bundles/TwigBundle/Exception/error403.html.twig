@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}No Permission
+{% endblock %}
+
+{% block body %}
+	{# {% include '_partials/_headerResetPassword.html.twig' %} #}
+	<div class="mainContainer d-flex flex-column align-items-center mt-5 ">
+		<div class="containerImageError">
+			<img class="imageError w-75 " src={{ asset('upload/images/error.png') }} alt="Error 403">
+		</div>
+		<div class="containerTextError d-flex flex-column align-items-center">
+			<h1>Access Denied</h1>
+			<p>The page you're trying to access has restricted access.Please refer to your system administrator
+			</p>
+		</div>
+		<div class="d-grid gap-2 d-md-block">
+			<a href="{{ path('app_agency_management') }}" class="btn btn-outline-danger w-25">Go Back</a>
+		</div>
+
+	</div>
+{% endblock %}
