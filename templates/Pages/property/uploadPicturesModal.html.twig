@@ -1,4 +1,3 @@
-{# {% extends 'base.html.twig' %} #}
 {% block body %}
 
 	<!-- Modal -->
@@ -8,7 +7,7 @@
 				<div
 					class="modal-header">
 					<!-- title -->
-					<h5 class="modal-title " id="uploadPicModal">Upload new pictures for the property</h5>
+					<h4 class="modal-title " id="uploadPicModal">Upload new pictures for the property</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div
@@ -25,14 +24,22 @@
 						</label>
 					</div>
 
-					<!-- preview section  -->
-					<div id="preview-section" class="hidden">
-						<div id="preview-images"></div>
+					<!-- preview new pictures section -->
+					<div id="preview-section" class="section hidden">
+						<h5>New pictures to load</h5>
+						<div id="new-images"></div>
 					</div>
+
+					<!-- Already loaded pictures section -->
+					<div id="loaded-section" class="section hidden">
+						<h5>Already loaded pictures</h5>
+						<div id="loaded-images"></div>
+					</div>
+
 				</div>
 				<div class="modal-footer" id="upload-section">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button id="upload-button" type="button" class="btn btn-success disabled" onclick="uploadAll()">upload</button>
+					<button id="upload-button" type="button" class="btn btn-success disabled" onclick="uploadAll({{property.id}})">upload</button>
 				</div>
 			</div>
 		</div>
