@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 
-// #[UniqueEntity('email')]
+
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email address')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\EntityListeners(['App\EntityListener\UserListener'])]

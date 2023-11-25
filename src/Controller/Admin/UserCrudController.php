@@ -109,7 +109,9 @@ class UserCrudController extends AbstractCrudController
     //function that retreive the id of the selected user and his email to send a reset email 
     public function sendEmailFirstAccess(AdminContext $context, ResetPasswordController $resetPassword,AdminUrlGenerator $adminUrlGenerator, MailerInterface $mailer, RouterInterface $router, ResetPasswordHelperInterface $resetPasswordHelper)
     {
+        // dd($context);
         $userObject = $context->getEntity()->getInstance();
+        // dd($userObject);
         $useremail = $userObject->getEmail();
         $phoneNumber = $userObject->getphoneNumber();
         $userFullName = $userObject->getFullName();
@@ -132,7 +134,9 @@ class UserCrudController extends AbstractCrudController
             ]);
             
         $mailer->send($email);// Send the email to the user with the reset URL.
-
+        
+        $this->addFlash('success','the email is send successfully!' );
+        
         //redirect to index USER CRUD 
         $targetUrl = $adminUrlGenerator
             ->setController(self::class)
