@@ -44,25 +44,35 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /* if all the user validations are done the function "onAuthenticationSuccess"
-    will redirect the autheticated user to the target path -home page- */
+    will redirect the autheticated user to the target path depending on his ROLE */
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
 
         $user = $token->getUser();
         
+        if (in_array('ROLE_MANAGER', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_agency_management'));
+        }
+
+
+
+        
+        
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
             return new RedirectResponse($this->urlGenerator->generate('admin_panel'));
         }
  
-        if (in_array('ROLE_MANAGER', $user->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('app_agency_management'));
-        }
+      
         if (in_array('ROLE_AGENT', $user->getRoles())) {
             return new RedirectResponse($this->urlGenerator->generate('app_agency_management'));
         }
 
          if (in_array('ROLE_CLIENT', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        }
+
+            if (in_array('ROLE_VIEWER', $user->getRoles())) {
             return new RedirectResponse($this->urlGenerator->generate('app_home'));
         }
  
