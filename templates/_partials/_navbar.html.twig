@@ -1,22 +1,26 @@
-<!--with hero image-->
+<!-- navbar section/hero image-->
 
-<nav class="navbar navbar-expand-lg fixed-top">
-	<div class="container-fluid">
-		<a class="navbar-brand fw-bold" href="#">
-			<img src={{ asset('upload/images/SerenityEstateLogo.png') }} alt="logo" width="80" height="60">
+<nav class="navbar navbar-expand-lg navbar-trans fixed-top w-95">
+	<div class="container">
+		<a
+			class="navbar-brand text-brand fw-bold" href="{{ path('app_home') }}">
+			{# <img src={{ asset('upload/images/SerenityEstateLogo.png') }} alt="logo" width="80" height="60"> #}
 			Serenity Estate
+			<span class="color-b">Agency</span>
+
+
 		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
+		<button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon "></span>
 		</button>
 		<div class="collapse navbar-collapse justify-content-end me-5" id="navbarNav">
-			<ul class="navbar-nav ml-auto">
+			<ul class="navbar-nav ml-auto nav">
 				<li class="nav-item active">
 					<a class="nav-link activeLink" href="{{ path('app_home') }}">Home<span class="sr-only">(current)</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">About Us</a>
+					<a class="nav-link" href="">About Us</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Property Listing</a>
@@ -27,10 +31,25 @@
 
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profil</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{app.user.fullName}}</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 							<li>
 								<a class="dropdown-item" href="{{ path('app_edit_profile') }}">Edit Profile</a>
+							</li>
+
+							<li>
+								{% if (app.user.roles[0] == 'ROLE_MANAGER') or (app.user.roles[0] =='ROLE_AGENT') %}
+									<a class="dropdown-item" href="{{ path('app_agency_management') }}">Personnal Area</a>
+								{% endif %}
+
+								{% if app.user.roles[0] == 'ROLE_ADMIN'%}
+									<a class="dropdown-item" href="{{ path('admin_panel') }}">Personnal Area</a>
+								{% endif %}
+
+								{% if app.user.roles[1] == 'ROLE_CLIENT'%}
+									<a class="dropdown-item" href="{{ path('app_client_area') }}">Personnal Area</a>
+								{% endif %}
+
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
@@ -45,18 +64,5 @@
 
 			</ul>
 		</div>
-	</div>
-</nav>
-<!--
-		<li class="nav-item dropdown">
-		          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-		            Dropdown
-		          </a>
-		          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-		            <li><a class="dropdown-item" href="#">Action</a></li>
-		            <li><a class="dropdown-item" href="#">Another action</a></li>
-		            <li><hr class="dropdown-divider"></li>
-		            <li><a class="dropdown-item" href="#">Something else here</a></li>
-		          </ul>
-		        </li>
-		>
+	</nav>
+	<!-- End Navbar -->
