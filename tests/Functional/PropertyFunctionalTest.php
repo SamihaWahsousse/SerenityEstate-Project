@@ -84,4 +84,38 @@ class PropertyFunctionalTest extends WebTestCase
         // $this->assertEquals('test_cover.jpg', $property->getCover());
         // $this->assertEquals('test_audio.mp3', $property->getAudio());
     }*/
+
+
+
+    // public function testLoginUser(): void
+    // {
+    //       $client = static::createClient();
+    //       $client->request('GET', '/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController');
+    //       $client->followRedirects();
+          
+    //       $this->assertSelectorTextSame('h1', 'SerenityEstate - Users administration');
+
+    //     //$this->assertPageTitleSame('SerenityEstate - Users administration');
+    //       $client->clickLink('Add User');
+          
+    //     //   $this->assertPageTitleSame('Create User');
+    //       $this->assertSelectorTextSame('h1', 'Create User');
+          
+    //       $client->submitForm('Create', [
+    //           'User[email]' => 'samiha@gmail.com',
+    //           'User[fullName]' => 'Samiha wahsousse',
+    //           'User[plainPassword][first]' =>'Password1',
+    //           'User[plainPassword][second]'=>'Password1',
+    //           'User[roles][]'=>'ROLE_CLIENT'
+            
+    //       ]);
+          
+    //       $this->assertSelectorTextContains('h1', 'SerenityEstate - Users administration');
+    // }
 }
+
+
+
+
+
+    

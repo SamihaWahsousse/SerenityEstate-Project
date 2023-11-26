@@ -26,20 +26,23 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PropertyController extends AbstractController
 {
+    
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
+// This controller display all properties
     #[Route('/property/list', name: 'app_property_list')]
     public function index(PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator): Response
     {       
-        // This controller display all properties
             $properties = $paginator->paginate(
             $propertyRepository ->paginationQuery(),
             $request->query->get('page',1),
-          5
+          8
         );
         return $this->render('pages/property/listProperties.html.twig', [
             'properties'=>$properties
         ]);
     }
-
+    
+// This controller Add a new property
 #[IsGranted('ROLE_MANAGER')]
     #[Route('/property/add', name: 'app_property_add', methods: ['GET', 'POST'])]
     public function addProperty(Request $request, ManagerRegistry $doctrine): Response
@@ -119,7 +122,8 @@ class PropertyController extends AbstractController
         //}
     }
 
-    //show one property 
+
+    //Show one property 
     #[Route('/property/{id}', name: 'show_property')]
     public function showProperty(Request $request, ManagerRegistry $doctrine, $id): Response
     {
@@ -127,7 +131,8 @@ class PropertyController extends AbstractController
         $property = $propertyRepository->find($id);
         
         if (!$property) {
-            $this->addFlash('error', 'The property : $id does not existe');
+            $this->addFlash('error', 'The Property N° ' . $id . ' does not existe');
+            return $this->redirectToRoute('app_property_list');
             return $this->redirectToRoute('app_property_list');
         }
         return $this->render('pages/property/showOneProperty.html.twig', [
@@ -155,7 +160,7 @@ class PropertyController extends AbstractController
             $entityManager ->persist($property);
             $entityManager->flush();   
             
-            $this->addFlash('success', 'Property Updated!'); //display a success message
+            $this->addFlash('success', 'Property N° '. $id . ' Updated Successfully !'); //display a success message
             return $this->redirectToRoute('app_property_list');
         }
             

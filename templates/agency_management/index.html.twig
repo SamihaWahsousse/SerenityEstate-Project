@@ -1,50 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{# {% block title %}Hello AgencyManagementController!
-{% endblock %} #}
-
-
-{#     
-        {% block stylesheets %}
-            {{parent ()}}
-            <link rel="stylesheet" href="agencyManagementPannel.css" />
-        {% endblock %}
-
-         {% block javascripts %}
-          {{parent ()}} 
-             <script src="{{ asset ("assets/js/agencyManagementPannel.js")}}" defer></script>        
-        {% endblock %}  #}
-
-{# {% block body %}
-    
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-              
-             
-                                    <td>$120</td>
-                                </tr>
-                  
-
-
-{# {% endblock %} #}
-
-{# <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{% block body %}
+	{% block stylesheets %}
+		{{ parent ()}}
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
 		<link rel="stylesheet" href="assets/css/agencyManagementPannel.css"/>
-		<title>SerenityEstate-Dashboard</title>
-	</head> #}
-	{% block body %}
-		{% block stylesheets %}
-		{{ parent ()}}
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/> <link rel="stylesheet" href="assets/css/agencyManagementPannel.css"/>
 	{% endblock %}
 
 	{% block javascripts %}
@@ -52,8 +12,6 @@
 		<script src="{{ asset ("assets/js/agencyManagementPannel.js")}}" defer></script>
 	{% endblock %}
 
-
-	{# <body id="body"> #}
 
 	{% if app.user %}
 
@@ -70,9 +28,7 @@
 					<a href="#">
 						<i class="fa fa-search" aria-hidden="true"></i>
 					</a>
-					<a
-						href="#">
-						{# <i class="fa fa-clock-o" aria-hidden="true"></i> #}
+					<a href="#">
 						{{app.user.fullName}}
 					</a>
 
@@ -95,7 +51,7 @@
 				<div
 					class="main__container">
 
-					<!-- MAIN TITLE STARTS HERE -->
+					<!--===== MAIN TITLE STARTS HERE =====-->
 					<div class="main__title">
 						<img src="assets/hello.svg" alt=""/>
 						<div class="main__greeting">
@@ -107,9 +63,9 @@
 						</div>
 					</div>
 
-					<!-- MAIN TITLE ENDS HERE -->
+					<!--===== MAIN TITLE ENDS HERE =====-->
 
-					<!-- MAIN CARDS STARTS HERE -->
+					<!--===== MAIN CARDS STARTS HERE ===== -->
 					<div class="main__cards">
 						<div class="card">
 							<i class="fa fa-user-o fa-2x text-lightblue" aria-hidden="true"></i>
@@ -198,10 +154,7 @@
 			<div id="sidebar">
 				<div class="sidebar__title">
 					<div class="sidebar__img">
-						<img
-						width="60" class="profileImage" src={{ asset('upload/images/logo.png') }} alt="logo">
-
-						{# <img src="assets/logo.png" alt="logo"/> #}
+						<img width="60" class="profileImage" src={{ asset('upload/images/logo.png') }} alt="logo">
 						<h1>SerenityEstate Agency</h1>
 					</div>
 					<i onclick="closeSidebar()" class="fa fa-times" id="sidebarIcon" aria-hidden="true"></i>

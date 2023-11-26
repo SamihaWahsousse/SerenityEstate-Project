@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Password Reset Email Sent{% endblock %}
 
 {% block body %}
-    <p>
-        If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
-        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+	<div class="d-flex flex-column justify-content-center align-items-center mt-5 pt-5">
+		<h2 class="text-center fw-medium">Email has been sent!</h2>
+		<img class="h-5 w-5" src={{ asset('upload/images/emailLetterCheckPassword.png') }} alt="email letter">
+
+	</div>
+
+	<div class="paragraphText d-flex flex-column align-items-center justify-content-center mt-5 pt-0 fw-light">
+		<span>
+			Please check your email and click in the received link to reset a password</span>
+		<span>
+			This link will expire in
+			{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData,'ResetPasswordBundle') }}.
+		</span>
+		<a class="btn btn-success mt-5 no border-0 fw-medium" href="{{ path('app_login') }}" role="button">
+			Sign In</a>
+		<p class="mt-2">Didn't receive the email?
+			<a class="fw-medium fs-6 " href="{{ path('app_forgot_password_request') }}">Click to Resend</a>
+		</p>
+	</div>
 {% endblock %}

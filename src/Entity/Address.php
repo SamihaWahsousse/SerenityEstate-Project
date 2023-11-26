@@ -6,6 +6,7 @@ use App\Repository\AddressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -19,6 +20,7 @@ class Address
     private ?string $street = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
     private ?int $floorNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'addresses', cascade: ["persist", "remove"])]

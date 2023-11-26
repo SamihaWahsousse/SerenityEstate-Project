@@ -2,40 +2,29 @@
 
 {% block stylesheets %}
 	{{parent ()}}
-	<link
-	rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
-{# <link rel="stylesheet" type="text/css" href="https://unpkg.com/@geoapify/geocoder-autocomplete@^1/styles/minimal.css">
-	<link rel="stylesheet" href="{{ asset("assets/css/geoapify.css")}}"/> #}
-
+	<link rel="stylesheet" href="{{ asset("assets/css/propertyFormDetails.css")}}"/>
 {% endblock %}
 
-{# {% block javascripts %}
-	{{parent ()}}
-	<script src="{{ asset ("assets/js/goeapify.js")}}" defer></script>
-	<script src="https://unpkg.com/@geoapify/geocoder-autocomplete@^1/dist/index.min.js" defer></script>
-
-
-{% endblock %} #}
-
 {% block body %}
-
-	<!--heading-->
-	<div class="bodyContainer">
-		<div class="flash-messages">
-			{% set flashbag_notices = app.session.flashBag('info') %}
-			{% for messages in app.session.flashBag.all()%}
-				{% for message in messages %}
-					<div class="alert alert-info" role="alert">
-						{{ message }}
-					</div>
-				{% endfor %}
-			{% endfor %}
-		</div>
+	<!--=====heading======-->
 
 
-		<!--form-->
+	<!--=====form Container=======-->
+
+		<div
+		class="bodyContainer"> <!--form-->
 		{{form_start(form)}}
 		<div class="container" class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+			<div class="flash-messages">
+				{% set flashbag_notices = app.session.flashBag('info') %}
+				{% for messages in app.session.flashBag.all()%}
+					{% for message in messages %}
+						<div class="alert alert-info" role="alert">
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
 			<header>Add new Property</header>
 
 			<section class="property-information">
@@ -61,31 +50,23 @@
 						</div>
 					</div>
 
-
 				</div>
 				<div class="row mt-3">
 					<div class="col-md-4">
-						<div
-							class="form-group">
-							{# <label for="area">Area (m²)</label> #}
+						<div class="form-group">
 							{{form_row(form.area ,{'attr':{'placeholder':'Write area'},'required':true })}}
 						</div>
 					</div>
 
 					<div class="col-md-4">
-						<div
-							class="form-group">
-							{# <label for="operation">Operation</label> #}
+						<div class="form-group">
 							{{form_row(form.operation ,{'attr':{'placeholder':'Select operation'},'required':true })}}
-
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div
-							class="form-group">
-							{# <label for="owner">Owner</label> #}
-							{{form_row(form.owner ,{'label':'Property owner', 'attr':{'placeholder':'Select floor number'},'required':true })}}
 
+					<div class="col-md-4">
+						<div class="form-group">
+							{{form_row(form.owner ,{'label':'Property owner', 'attr':{'placeholder':'Select floor number'},'required':true })}}
 						</div>
 					</div>
 				</div>
@@ -93,29 +74,28 @@
 
 			<section class="address">
 				<div class="row mt-3">
+
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="address">Search for address</label>
-							{# <input type="text" class="form-control" id="street" placeholder="Write address"></input> #}
 							<div class="address-field autocomplete-container" id="street"></div>
 						</div>
 					</div>
 
-
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="address">Street</label>
-							{# <input type="text" class="form-control" id="address"> #}
 							{{ form_widget(form.address.street, {'attr': {'placeholder':'Street'}}) }}
 						</div>
 					</div>
+
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="city">City</label>
-							{# <input type="text" class="form-control" id="city"> #}
 							{{ form_widget(form.address.cityRegion.city, {'attr': { 'placeholder':'City'}}) }}
 						</div>
 					</div>
+
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="region">Region</label>
@@ -124,7 +104,6 @@
 					</div>
 				</div>
 			</section>
-
 
 			<section class="complement-information">
 				<div class="row mt-3">

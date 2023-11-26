@@ -242,7 +242,7 @@ function addUploadedImage(imageJson) {
 	imageContainer.classList.add("loaded-image-container");
 
 	let img = document.createElement("img");
-	img.src = "https://apistorefile.devwebpro.tech" + imageJson.fileUrl; // path to the picture
+	img.src = imageJson.fileUrl; // url to the picture
 	img.classList.add("loaded-image");
 
 	let iconContainer = document.createElement("div");

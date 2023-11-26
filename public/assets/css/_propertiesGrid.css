@@ -12,7 +12,7 @@
 }
 
 .containerCard .box:first-of-type:before {
-	content: "Featured";
+	content: "Most Visited";
 	background-color: #ea723d;
 	color: white;
 	font-size: 13px;

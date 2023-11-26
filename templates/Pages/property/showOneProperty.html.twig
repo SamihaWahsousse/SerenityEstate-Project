@@ -126,7 +126,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="description">Description</label>
-								<textarea class="form-control" row="2">{{property.description}}
+								<textarea class="form-control" row="2" readonly>{{property.description}}
 								</textarea>
 							</div>
 						</div>
@@ -145,22 +145,30 @@
 					</div>
 				</section>
 
-				<!-- Buttons for managing property Ads and Property pictures -->
-				<div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-center no-wrap">
+				<!--=====Buttons for managing property Ads and Property pictures=====-->
+				<div
+					class="d-grid gap-2 mt-5 d-md-flex justify-content-md-center no-wrap">
 
-					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button>
+					{# <button type="button" class="btn btn-success text-nowrap" data-bs-toggle="button" autocomplete="off">Edit Property</button> #}
+					<a href="{{ path('edit_property',{'id': property.id}) }}" role="button" class="btn btn-success">
+						<i class="fa fa-edit"></i>
+						Edit Property</a>
 
 
-					<!-- Button to trigger the modal upload  property pictures-->
+					<!--===== Button to trigger the modal upload  property pictures =====-->
 					<button type="button" class="btn btn-success text-nowrap" data-bs-toggle="modal" data-bs-target="#exampleModal" autocomplete="off" onclick="Init({{property.id}})">
+						<i class="fa-solid fa-image"></i>
 						Manage Pictures
 					</button>
 
+					<!--===== show add property ad button if it's not created it yet =====-->
 					{% if (property.ad != null)  %}
 						{{ render(controller('App\\Controller\\PropertyAdController::editPropertyAd', {id: property.ad.id} )) }}
+					{% else %}
+						{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {IdProperty: property.id} )) }}
 					{% endif %}
 
-					{{ render(controller('App\\Controller\\PropertyAdController::addPropertyAd', {IdProperty: property.id} )) }}
+					<a href="{{ path('app_property_list')}}" role="button" class="btn btn-success">Property listing</a>
 
 				</div>
 			</div>

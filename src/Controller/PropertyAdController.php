@@ -62,11 +62,11 @@ class PropertyAdController extends AbstractController
                 $entityManager->persist($propertyAd);
                 $entityManager->flush();
                  
-                $this->addFlash('success', 'Property Ads Created !');
+                $this->addFlash('success', 'Property Ad Created for the Property!');
                 return $this->redirectToRoute('app_property_list'); 
                       
             } else {
-             dd('test');
+            //  dd('test');
         }
         }
         return $this->render('pages/propertyAd/addAd.html.twig', [
